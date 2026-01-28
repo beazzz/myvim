@@ -3,7 +3,7 @@ from view.View import View
 
 
 class Controller():
-    pass
-
-
-print(123)
+    def __init__(self):
+        self.model = Model()
+        self.view = View()
+        pass
