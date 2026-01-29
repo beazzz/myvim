@@ -11,16 +11,24 @@ class Model:
         self.mode = 0
         self.index = 0
 
+    # command with files
     def open(self):
         pass
-
     def close(self):
         pass
 
+    # command with views
     def update(self):
         self.view.draw()
 
-    def commandA(self):
+    # command with text
+    def delete(self):
+        pass
+    def cut(self):
+        pass
+    def copy(self):
+        pass
+    def put(self):
         pass
 
 
