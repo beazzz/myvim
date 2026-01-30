@@ -4,8 +4,17 @@ from .Commands import Command
 
 class Controller():
     def __init__(self):
-        self.model = Model()
-        self.commands = Command(self.model)
-        self.view = View()
+        self.__view = View()
+        self.__model = Model(self.__view)
+        self.__commands = []
+
+    def InitCommand(self, command):
+        self.__commands.append(command)
+        
+    
+
+
+
+      
 
     
