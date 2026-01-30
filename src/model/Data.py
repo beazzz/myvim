@@ -6,9 +6,9 @@ from MyString import MyString
 class Data:
     def __init__(self, view: View, state : State):
         # contructor
-        self.view = view
-        self.string = MyString()
-        self.state = state
+        self.__view = view
+        self.__string = MyString()
+        self.__state = state
 
     # command with files      
     def open(self):
