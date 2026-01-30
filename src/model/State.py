@@ -2,10 +2,10 @@ from .Command import Command
 
 class State():
     def __init__(self):
-        self._commands = []
+        self._commands: list[Command] = []
     
-    def handleInput(self, command : Command):
-        self._commands[command].execute()
+    def handleInput(self, commandName):
+        self._commands[commandName].execute()
 
     def addCommmand(self):
         pass
