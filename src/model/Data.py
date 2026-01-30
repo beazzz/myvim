@@ -4,11 +4,14 @@ from MyString import MyString
 
 
 class Data:
-    def __init__(self, view: View, state : State):
+    def __init__(self, view: View):
         # contructor
-        self.__view = view
+        self.__posCursor = {'x': 0,
+                            'y': 0
+        }
+        self.__view = view 
         self.__string = MyString()
-        self.__state = state
+        self.__state : list[State] = []
 
     def handleInput(self, commandName):
         self.__state.handleInput(commandName)
@@ -21,7 +24,7 @@ class Data:
 
     # command with views
     def update(self):
-        self.view.draw()
+        self.__view.draw()
 
     # command with text
     def delete(self):
@@ -32,3 +35,6 @@ class Data:
         pass
     def put(self):
         pass
+
+    def posCursor(self, coord, value):
+        self.__posCursor[coord]+= value
