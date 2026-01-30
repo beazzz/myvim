@@ -1,5 +1,6 @@
 from view.View import View
 from .State import State
+from .Command import Command
 from MyString import MyString
 
 
@@ -9,6 +10,9 @@ class Data:
         self.__view = view
         self.__string = MyString()
         self.__state = state
+
+    def handleInput(self, command: Command):
+        self.__state.handleInput(command)
 
     # command with files      
     def open(self):

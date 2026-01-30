@@ -8,8 +8,8 @@ class Controller():
         self.view = View()
         self.model = Data()
 
-    def control():
-        pass
+    def execute(self):
+        self.model.handleInput()
 
         
     
