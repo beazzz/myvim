@@ -13,13 +13,18 @@ class Data:
         self.__state = state
 
     def handleInput(self, commandName):
+        print("Data handle command")
         self.__state.handleInput(commandName)
     
     def posCursor(self, coord, value):
+        print("Data change pos")
         self.__posCursor[coord]+= value
 
     def getPosCursor(self):
         return self.__posCursor
+    
+    def SetContext(self, state : State):
+        self.__state = state
     
 class Command:
     def __init__(self, editor: Data):
@@ -31,17 +36,19 @@ class Command:
 class State:
     def __init__(self, context : Data):
         self._commands: dict[Command] = {}
-        self.context = context
+        self._context = context
     
     def handleInput(self, commandName):
+        print("State handle command")
         self._commands[commandName].execute()
         
     def addCommmand(self, commandName, command: Command):
+        print("State add command")
         self._commands[commandName] = command
-        pass
-
+        
     def ChangeState(self, state: State):
-        pass
+        print("State change state")
+        self._context.SetContext(state)
                                                                                                                               
 # view = View()
 # test = Data(view)
