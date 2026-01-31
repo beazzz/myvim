@@ -1,5 +1,5 @@
 from model.Data import Data
-from model.Command import rightCommand
+from model.Command import downCommand
 from model.State import NormalState
 from view.View import View
 
@@ -10,13 +10,14 @@ def main():
     test.AddState("Normal", NormalState(test))
     test.ChangeState("Normal")
 
-    test.handleInput("right")
-    # test.handleInput("right")
-    # test.handleInput("right")
-
-    # test.handleInput("left")
-    print()
+    test.handleInput("down")
+    test.handleInput("down")
+    test.handleInput("down")
+    test.handleInput("down")
+    test.handleInput("down")
+    test.handleInput("down")
     print(test.getPosCursor())
+
 
 if __name__ == '__main__':
     main()

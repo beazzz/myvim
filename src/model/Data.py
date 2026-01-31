@@ -12,7 +12,8 @@ class Data:
         # contructor
         print("Create", self)
         self.__posCursor = {'x': 0,
-                            'y': 0}
+                            'y': 0,
+                            'x_save': 0}
         self.__view = View()
         self.__open(url)
         self.__states: dict[State] = {}
@@ -21,9 +22,17 @@ class Data:
     def handleInput(self, commandName : str):
         print("Data handle command", commandName, self)
         self.__state.handleInput(commandName)
-    
-    def posCursor(self, dictOfCoord : dict):
-        #print("Data change pos", coord, value, self)
+    def AddState(self, stateName: str, state : State):
+        self.__states[stateName] = state
+    def ChangeState(self, stateName : str):
+        state = self.__states.get(stateName)
+        if state is None:
+            print("State is incorrect")
+            return
+        self.__state = state
+        print("ChangeState", stateName, self)
+
+    def SetPosCursor(self, dictOfCoord : dict):
         self.__posCursor = dictOfCoord
 
     def getPosCursor(self):
@@ -33,17 +42,74 @@ class Data:
     def getRaw(self):
         string = self.__string[self.__posCursor['y']]
         return string.c_str()
-    
-    def ChangeState(self, stateName : str):
-        state = self.__states.get(stateName)
-        if state is None:
-            print("State is incorrect")
-            return
-        self.__state = state
-        print("ChangeState", stateName, self)\
+    def getCountOfColumn(self):
+        return len(self.__string)
+
+    def moveCursorRight(self):
+        self.__posCursor['x'] += 1
+
+        if self.__posCursor['x'] > len(self.getRaw()): 
+            self.__posCursor['x'] = 0
+            self.__posCursor['y'] += 1
+
+        self.__posCursor['x_save'] = self.__posCursor['x']
+        print("right completed", self)
+    def moveCursorLeft(self):
+        self.__posCursor['x'] -= 1
+
+        if self.__posCursor['x'] < 0:
+            if self.__posCursor['y'] == 0:
+                self.__posCursor['x'] = 0
+            else:
+                self.__posCursor['x'] = len(self.getRaw())
+                self.__posCursor['y'] -= 1
+
+        self.__posCursor['x_save'] = self.__posCursor['x']
+        print("left completed", self)
+    def moveCursorUp(self):
+        self.__posCursor['y'] -= 1
+        if self.__posCursor['y'] < 0:
+            self.__posCursor['y'] = 0
         
-    def AddState(self, stateName: str, state : State):
-        self.__states[stateName] = state
+        self.__doCorrectCursor()
+    def moveCursorDown(self):
+        self.__posCursor['y'] += 1
+        value = self.getCountOfColumn()
+        if self.__posCursor['y'] >= value:
+            self.__posCursor['y'] = value - 1
+
+        self.__doCorrectCursor()
+    def moveCursorToWordStart(self):
+        pass
+    def moveCursorToWordEnd(self):
+        pass
+    def moveCursorToRightWordEnd(self):
+        pass
+    def moveCursorToLeftWordStart(self):
+        pass
+    def moveCursorToFileStart(self):
+        pass
+    def moveCursorToFileEnd(self):
+        pass
+    def moveCursorToNstringUP(self, N : int):
+        pass
+    def moveCursorToNstringDown(self, N : int):
+        pass
+    def deleteWordAfterCursor(self):
+        pass
+    def deleteWordUndefCursor(self):
+        pass
+    def cutCurrentString(self):
+        pass
+    def copyCurrentString(self):
+        pass
+    def copyWordUnderCursor(self):
+        pass
+    def pasteAfterCursor(self):
+        pass
+
+
+        
 
 
     def __open(self, url : str):
@@ -58,7 +124,16 @@ class Data:
                 print("FileNotFound, please check correct path file!")
         else:
             self.__string = [MyString()]
-    
+    def __doCorrectCursor(self):
+        """
+        observing Cursor's coord after up and down command
+        """
+        end_string = len(self.getRaw())
+        if self.__posCursor['x_save'] > end_string:
+            self.__posCursor['x'] = end_string
+        else:
+            self.__posCursor['x'] = self.__posCursor['x_save']
+
 class Command:
     """
     Parent for OtherCommands
@@ -96,7 +171,3 @@ class State:
         print("State change state", stateName, self)
         self._context.ChangeState(stateName)
                                                                                                                               
-# view = View()
-# test = Data(view)
-# test.posCursor('x', 10)
-# print(test.getPosCursor())
