@@ -69,15 +69,18 @@ class deleteWordAfterCursor(Command):
 class deleteWordUnderCursor(Command):
     def execute(self, *args: None):
         self._editor.deleteWordUnderCursor()
+
 class cutCurrentString(Command):
     def execute(self, *args: None):
         self._editor.cutCurrentString()
+        
 class copyCurrentString(Command):
     def execute(self, *args: None):
         self._editor.copyCurrentString()
 class copyWordUnderCursor(Command):
     def execute(self, *args):
         self._editor.copyWordUnderCursor()
+
 class pasteAfterCursor(Command):
     def execute(self, *args):
         self._editor.pasteAfterCursor()
