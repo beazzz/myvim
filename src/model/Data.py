@@ -91,9 +91,11 @@ class Data:
         pass
     def moveCursorToFileEnd(self):
         pass
-    def moveCursorToNstringUp(self, N : int):
+    def moveCursorToNstring(self, N : int):
         pass
-    def moveCursorToNstringDown(self, N : int):
+    def moveScreenToUp(self):
+        pass
+    def moveScreenToDown(self):
         pass
     def deleteWordAfterCursor(self):
         pass

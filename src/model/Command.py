@@ -49,20 +49,20 @@ class moveCursorToFileStart(Command):
 class moveCursorToFileEnd(Command):
     def execute(self, *args: None):
         self._editor.moveCursorToFileEnd()
-class moveCursorToNstringUP(Command):
+class moveCursorToNstring(Command):
     def execute(self, *args: int):
         """
         :param args: only 1 is N - number of string
         :type args: int
         """
-        return self._editor.moveCursorToNstringUp(args[0])
-class moveCursorToNstringDown(Command):
-    def execute(self, *args: int):
-        """
-        :param args: only 1 is N - number of string
-        :type args: int
-        """
-        return self._editor.moveCursorToNstringDown(args[0])
+        return self._editor.moveCursorToNstring(args[0])
+class moveScreenToUp(Command):
+    def execute(self, *args):
+        self._editor.moveScreenToUp()
+class moveScreenToDown(Command):
+    def execute(self, *args):
+        self._editor.moveScreenToDown()
+
 class deleteWordAfterCursor(Command):
     def execute(self, *args: None):
         self._editor.deleteWordAfterCursor()
