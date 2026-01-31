@@ -11,10 +11,10 @@ def main():
     test.ChangeState("Normal")
 
     test.handleInput("right")
-    test.handleInput("right")
-    test.handleInput("right")
+    # test.handleInput("right")
+    # test.handleInput("right")
 
-    test.handleInput("left")
+    # test.handleInput("left")
     print()
     print(test.getPosCursor())
 

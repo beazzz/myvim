@@ -6,7 +6,7 @@ class rightCommand(Command):
     """
     def execute(self):
         cursor = self._editor.getPosCursor()
-        cursor['x'] += 1
+        cursor['x'] += 100
 
         if cursor['x'] > len(self._editor.getRaw()): 
             cursor['x'] = 0
