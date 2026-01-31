@@ -1,8 +1,6 @@
-from .Data import Data
+from .Data import Command
 
-class Command():
-    def __init__(self, editor: Data):
-        self._editor = editor
-
+class rightCommand(Command):
     def execute(self):
-        pass
+        print("right completed", self)
+        self._editor.posCursor('x', 1)

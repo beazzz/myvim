@@ -1,14 +1,18 @@
-from .Command import Command
+from .Data import State
+from .Command import rightCommand
 
-class State():
-    def __init__(self):
-        self._commands: list[Command] = []
-    
-    def handleInput(self, commandName):
-        self._commands[commandName].execute()
+class NormalState(State):
+    def __init__(self, context):
+        super().__init__(context)
 
-    def addCommmand(self):
-        pass
+        self.addCommmand("right", rightCommand(self._context))
 
-    def ChangeState(self):
-        pass
+class InsertState(State):
+    pass
+
+class VisualState(State):
+    pass
+
+class CommandState(State):
+    pass
+
