@@ -7,8 +7,9 @@ from view.View import View
 def main():
     test = Data("test.txt")
     print()
-    test.SetState(NormalState(test))
+    test.AddState("Normal", NormalState(test))
     print()
+    test.ChangeState("Normal")
     test.handleInput("right")
     print()
     print(test.getPosCursor())

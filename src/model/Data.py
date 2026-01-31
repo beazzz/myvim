@@ -15,9 +15,10 @@ class Data:
                             'y': 0}
         self.__view = View()
         self.__open(url)
+        self.__states: dict[State] = {}
         self.__state = State(self)
 
-    def handleInput(self, commandName):
+    def handleInput(self, commandName : str):
         print("Data handle command", commandName, self)
         self.__state.handleInput(commandName)
     
@@ -28,12 +29,19 @@ class Data:
     def getPosCursor(self):
         return self.__posCursor
     
-    def SetState(self, state : State):
-        print("SetState", state, self)
+    def ChangeState(self, stateName : str):
+        state = self.__states.get(stateName)
+        if state is None:
+            print("State is incorrect")
+            return
         self.__state = state
+        print("ChangeState", stateName, self)\
+        
+    def AddState(self, stateName: str, state : State):
+        self.__states[stateName] = state
 
 
-    def __open(self, url):
+    def __open(self, url : str):
         if url is not None:
             try:
                 with open(url, 'r', encoding="utf-8") as file:
@@ -68,20 +76,20 @@ class State:
         self._commands: dict[Command] = {}
         self._context = context
     
-    def handleInput(self, commandName):
+    def handleInput(self, commandName : str):
         """
         Pass control to Command
         """
         print("State handle command", commandName, self)
         self._commands[commandName].execute()
         
-    def addCommmand(self, commandName, command: Command):
+    def addCommmand(self, commandName : str, command: Command):
         print("State add command", commandName, self)
         self._commands[commandName] = command
         
-    def ChangeState(self, state: State):
-        print("State change state", state, self)
-        self._context.SetContext(state)
+    def ChangeState(self, stateName : str):
+        print("State change state", stateName, self)
+        self._context.ChangeState(stateName)
                                                                                                                               
 # view = View()
 # test = Data(view)
