@@ -80,9 +80,9 @@ class Data:
 
         self.__doCorrectCursor()
     def moveCursorToStringStart(self):
-        pass
+        self.__posCursor['x'] = 0
     def moveCursorToStringEnd(self):
-        pass
+        self.__posCursor['x'] = len(self.getRaw())
     def moveCursorToRightWordEnd(self):
         pass
     def moveCursorToLeftWordStart(self):

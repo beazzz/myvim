@@ -1,5 +1,5 @@
 from .Data import State
-from .Command import rightCommand, leftCommand, upCommand, downCommand
+import Command
 
 class NormalState(State):
     """
@@ -7,10 +7,12 @@ class NormalState(State):
     """
     def __init__(self, context):
         super().__init__(context)
-        self.addCommmand("right", rightCommand(self._context))
-        self.addCommmand("left", leftCommand(self._context))
-        self.addCommmand("up", upCommand(self._context))
-        self.addCommmand("down", downCommand(self._context))
+        self.addCommmand("right", Command.rightCommand(self._context))
+        self.addCommmand("left", Command.leftCommand(self._context))
+        self.addCommmand("up", Command.upCommand(self._context))
+        self.addCommmand("down", Command.downCommand(self._context))
+        self.addCommmand("0", Command.ZeroCommand(self._context))
+        self.addCommmand("$", Command.DollarCommand(self._context))
 
 class InsertState(State):
     pass
