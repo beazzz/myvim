@@ -4,13 +4,17 @@ from MyString import MyString
 
 
 class Data:
-    def __init__(self):
+    """
+    There are data for vim. 
+    For Command is Receiver, For State is Context
+    """
+    def __init__(self, url = None):
         # contructor
         print("Create", self)
         self.__posCursor = {'x': 0,
                             'y': 0}
         self.__view = View()
-        self.__string = MyString()
+        self.__open(url)
         self.__state = State(self)
 
     def handleInput(self, commandName):
@@ -24,11 +28,26 @@ class Data:
     def getPosCursor(self):
         return self.__posCursor
     
-    def SetContext(self, state : State):
-        print("SetContext", state, self)
+    def SetState(self, state : State):
+        print("SetState", state, self)
         self.__state = state
+
+
+    def __open(self, url):
+        if url is not None:
+            try:
+                with open(url, 'r', encoding="utf-8") as file:
+                    self.__string = MyString(file.read())
+                print(self.__string.c_str())
+            except FileNotFoundError:
+                print("FileNotFound, please check correct path file!")
+        else:
+            self.__string = MyString()
     
 class Command:
+    """
+    Parent for OtherCommands
+    """
     def __init__(self, editor: Data):
         print("Create command", self)
         self._editor = editor
@@ -38,12 +57,19 @@ class Command:
         pass
 
 class State:
+    """
+    Parent for OtherState
+    For Command is Invoker
+    """
     def __init__(self, context : Data):
         print("Create State", self)
         self._commands: dict[Command] = {}
         self._context = context
     
     def handleInput(self, commandName):
+        """
+        Pass control to Command
+        """
         print("State handle command", commandName, self)
         self._commands[commandName].execute()
         
