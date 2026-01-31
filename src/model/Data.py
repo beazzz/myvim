@@ -139,11 +139,11 @@ class Command:
     Parent for OtherCommands
     """
     def __init__(self, editor: Data):
-        print("Create command", self)
+        #print("Create command", self)
         self._editor = editor
 
-    def execute(self):
-        print("Execute command", self)
+    def execute(self, *args):
+        #print("Execute command", self)
         pass
 
 class State:
