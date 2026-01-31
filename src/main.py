@@ -5,12 +5,16 @@ from view.View import View
 
 
 def main():
+    # init
     test = Data("test.txt")
-    print()
     test.AddState("Normal", NormalState(test))
-    print()
     test.ChangeState("Normal")
+
     test.handleInput("right")
+    test.handleInput("right")
+    test.handleInput("right")
+
+    test.handleInput("left")
     print()
     print(test.getPosCursor())
 

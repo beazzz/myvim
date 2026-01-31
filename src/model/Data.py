@@ -22,12 +22,17 @@ class Data:
         print("Data handle command", commandName, self)
         self.__state.handleInput(commandName)
     
-    def posCursor(self, coord, value):
-        print("Data change pos", coord, value, self)
-        self.__posCursor[coord]+= value
+    def posCursor(self, dictOfCoord : dict):
+        #print("Data change pos", coord, value, self)
+        self.__posCursor = dictOfCoord
 
     def getPosCursor(self):
         return self.__posCursor
+    def getSymbol(self):
+        return self.__string[self.__posCursor['y']][self.__posCursor['x']]
+    def getRaw(self):
+        string = self.__string[self.__posCursor['y']]
+        return string.c_str()
     
     def ChangeState(self, stateName : str):
         state = self.__states.get(stateName)

@@ -1,5 +1,5 @@
 from .Data import State
-from .Command import rightCommand
+from .Command import rightCommand, leftCommand
 
 class NormalState(State):
     """
@@ -8,6 +8,7 @@ class NormalState(State):
     def __init__(self, context):
         super().__init__(context)
         self.addCommmand("right", rightCommand(self._context))
+        self.addCommmand("left", leftCommand(self._context))
 
 class InsertState(State):
     pass
