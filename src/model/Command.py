@@ -1,42 +1,43 @@
 from .Data import Command
-
-class rightCommand(Command):
+"""
+Normal Mode
+"""
+class moveCursorRight(Command):
     """
     move cursor right
     """
     def execute(self, *args : None):
         self._editor.moveCursorRight(1)      
-class leftCommand(Command):
+class moveCursorLeft(Command):
     """
     move cursor left
     """
     def execute(self, *args: None):
         self._editor.moveCursorLeft(1)
-class upCommand(Command):
+class moveCursorUp(Command):
     """
     move cursor up
     """
     def execute(self, *args: None):
         self._editor.moveCursorUp(1)
-class downCommand(Command):
+class moveCursorDown(Command):
     """
     move cursor down
     """
     def execute(self, *args: None):
         self._editor.moveCursorDown(1)
-class ZeroCommand(Command):
+class moveCursorToStartString(Command):
     """
     move Cursor ToStart String
     """
     def execute(self, *args: None):
         self._editor.moveCursorToStringStart()
-class DollarCommand(Command):
+class moveCursorToEndString(Command):
     """
     move cursor to end string
     """
     def execute(self, *args: None):
         self._editor.moveCursorToStringEnd()
-
 class moveCursorToRightWordEnd(Command):
         def execute(self, *args: None):
             self._editor.moveCursorToRightWordEnd()
@@ -62,25 +63,98 @@ class moveScreenToUp(Command):
 class moveScreenToDown(Command):
     def execute(self, *args):
         self._editor.moveScreenToDown()
-
 class deleteWordAfterCursor(Command):
     def execute(self, *args: None):
         self._editor.deleteWordAfterCursor()
 class deleteWordUnderCursor(Command):
     def execute(self, *args: None):
         self._editor.deleteWordUnderCursor()
-
 class cutCurrentString(Command):
     def execute(self, *args: None):
-        self._editor.cutCurrentString()
-        
+        self._editor.cutCurrentString()      
 class copyCurrentString(Command):
     def execute(self, *args: None):
         self._editor.copyCurrentString()
 class copyWordUnderCursor(Command):
     def execute(self, *args):
         self._editor.copyWordUnderCursor()
-
 class pasteAfterCursor(Command):
     def execute(self, *args):
         self._editor.pasteAfterCursor()
+
+"""
+Insert Mode
+"""
+class insertText(Command):
+    def  execute(self, *args):
+        pass
+class insertTextInStartString(Command):
+    def  execute(self, *args):
+        pass
+class insertTextInEndString(Command):
+    def  execute(self, *args):
+        pass
+class cutStringToInsert(Command):
+    def  execute(self, *args):
+        pass
+class replaceSymbolUnderCursor(Command):
+    def  execute(self, *args):
+        pass
+
+"""
+Search State
+"""
+class searchFromCursor(Command):
+    """
+    if find Cursor will place in start string
+    """
+    def execute(self, *args):
+        pass
+class research(Command):
+    """
+    repeat search
+    """
+    def execute(self, *args):
+        pass
+class researchInvers(Command):
+    """
+    search on the contrary 
+    """
+    def execute(self, *args):
+        pass
+
+"""
+Command State
+"""
+class open(Command):
+    def execute(self, *args):
+        pass
+class writeExit(Command):
+    def execute(self, *args):
+        pass
+class write(Command):
+    def execute(self, *args):
+        pass
+class writeFile(Command):
+    def execute(self, *args):
+        pass
+class quitAfterSave(Command):
+    def execute(self, *args):
+        pass
+class quitWithoutSave(Command):
+    def execute(self, *args):
+        pass
+class writeQuit(Command):
+    def execute(self, *args):
+        pass
+class placeNstring(Command):
+    def execute(self, *args):
+        pass
+class TurnOnOffNumStrings(Command):
+    def execute(self, *args):
+        pass
+class help(Command):
+    def execute(self, *args):
+        pass
+
+

@@ -7,13 +7,12 @@ class NormalState(State):
     """
     def __init__(self, context):
         super().__init__(context)
-        self.addCommmand("right", Command.rightCommand(self._context))
-        self.addCommmand("left", Command.leftCommand(self._context))
-        self.addCommmand("up", Command.upCommand(self._context))
-        self.addCommmand("down", Command.downCommand(self._context))
-        self.addCommmand("0", Command.ZeroCommand(self._context))
-        self.addCommmand("$", Command.DollarCommand(self._context))
-
+        self.addCommmand("right", Command.moveCursorRight(self._context))
+        self.addCommmand("left", Command.moveCursorLeft(self._context))
+        self.addCommmand("up", Command.moveCursorUp(self._context))
+        self.addCommmand("down", Command.moveCursorDown(self._context))
+        self.addCommmand("0", Command.moveCursorToStartString(self._context))
+        self.addCommmand("$", Command.moveCursorToEndString(self._context))
         self.addCommmand("w", Command.moveCursorToRightWordEnd(self._context))
         self.addCommmand("b", Command.moveCursorToLeftWordStart(self._context))
         self.addCommmand("gg", Command.moveCursorToFileStart(self._context))
@@ -30,11 +29,38 @@ class NormalState(State):
         
 
 class InsertState(State):
-    pass
+    """
+    State for insert text
+    """
+    def __init__(self, context):
+        super().__init__(context)
+        self.addCommmand("i", Command.insertText(self._context))
+        self.addCommmand("I", Command.insertTextInStartString(self._context))
+        self.addCommmand("A", Command.insertTextInEndString(self._context))
+        self.addCommmand("S", Command.cutStringToInsert(self._context))
+        self.addCommmand("r", Command.replaceSymbolUnderCursor(self._context))
 
-class VisualState(State):
-    pass
+class SearchState(State):
+    """
+    State for search text
+    """
+    def __init__(self, context):
+        super().__init__(context)
+        self.addCommmand("/text", Command.searchFromCursor(self._context))
+        self.addCommmand("n", Command.research(self._context))
+        self.addCommmand("N", Command.researchInvers(self._context))
 
 class CommandState(State):
-    pass
+    def __init__(self, context):
+        super().__init__(context)
+        self.addCommmand("o filename", Command.open(self._context))
+        self.addCommmand("x", Command.writeExit(self._context))
+        self.addCommmand("w", Command.write(self._context))
+        self.addCommmand("w filename", Command.writeFile(self._context))
+        self.addCommmand("q", Command.quitAfterSave(self._context))
+        self.addCommmand("q!", Command.quitWithoutSave(self._context))
+        self.addCommmand("wq!", Command.writeQuit(self._context))
+        self.addCommmand("number", Command.placeNstring(self._context))
+        self.addCommmand("set num", Command.TurnOnOffNumStrings(self._context))
+        self.addCommmand("h", Command.help(self._context))
 
