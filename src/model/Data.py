@@ -45,8 +45,8 @@ class Data:
     def getCountOfColumn(self):
         return len(self.__string)
 
-    def moveCursorRight(self):
-        self.__posCursor['x'] += 1
+    def moveCursorRight(self, value : int):
+        self.__posCursor['x'] += value
 
         if self.__posCursor['x'] > len(self.getRaw()): 
             self.__posCursor['x'] = 0
@@ -54,8 +54,8 @@ class Data:
 
         self.__posCursor['x_save'] = self.__posCursor['x']
         print("right completed", self)
-    def moveCursorLeft(self):
-        self.__posCursor['x'] -= 1
+    def moveCursorLeft(self, value : int):
+        self.__posCursor['x'] -= value
 
         if self.__posCursor['x'] < 0:
             if self.__posCursor['y'] == 0:
@@ -66,22 +66,22 @@ class Data:
 
         self.__posCursor['x_save'] = self.__posCursor['x']
         print("left completed", self)
-    def moveCursorUp(self):
-        self.__posCursor['y'] -= 1
+    def moveCursorUp(self, value: int):
+        self.__posCursor['y'] -= value
         if self.__posCursor['y'] < 0:
             self.__posCursor['y'] = 0
         
         self.__doCorrectCursor()
-    def moveCursorDown(self):
-        self.__posCursor['y'] += 1
+    def moveCursorDown(self, value: int):
+        self.__posCursor['y'] += value
         value = self.getCountOfColumn()
         if self.__posCursor['y'] >= value:
             self.__posCursor['y'] = value - 1
 
         self.__doCorrectCursor()
-    def moveCursorToWordStart(self):
+    def moveCursorToStringStart(self):
         pass
-    def moveCursorToWordEnd(self):
+    def moveCursorToStringEnd(self):
         pass
     def moveCursorToRightWordEnd(self):
         pass
