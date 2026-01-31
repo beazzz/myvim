@@ -1,5 +1,5 @@
 from .Data import State
-import Command
+import model.Command as Command
 
 class NormalState(State):
     """

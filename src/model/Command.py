@@ -4,62 +4,80 @@ class rightCommand(Command):
     """
     move cursor right
     """
-    def execute(self):
-        self._editor.moveCursorRight(1)
-        
+    def execute(self, *args : None):
+        self._editor.moveCursorRight(1)      
 class leftCommand(Command):
     """
     move cursor left
     """
-    def execute(self):
+    def execute(self, *args: None):
         self._editor.moveCursorLeft(1)
 class upCommand(Command):
     """
     move cursor up
     """
-    def execute(self):
+    def execute(self, *args: None):
         self._editor.moveCursorUp(1)
 class downCommand(Command):
     """
     move cursor down
     """
-    def execute(self):
+    def execute(self, *args: None):
         self._editor.moveCursorDown(1)
 class ZeroCommand(Command):
     """
     move Cursor ToStart String
     """
-    def execute(self):
+    def execute(self, *args: None):
         self._editor.moveCursorToStringStart()
 class DollarCommand(Command):
     """
     move cursor to end string
     """
-    def execute(self):
+    def execute(self, *args: None):
         self._editor.moveCursorToStringEnd()
 
 class moveCursorToRightWordEnd(Command):
-        def execute(self):
+        def execute(self, *args: None):
             self._editor.moveCursorToRightWordEnd()
 class moveCursorToLeftWordStart(Command):
-    pass
+    def execute(self, *args: None):
+        self._editor.moveCursorToLeftWordStart()
 class moveCursorToFileStart(Command):
-    pass
+    def execute(self, *args: None):
+        self._editor.moveCursorToFileStart()
 class moveCursorToFileEnd(Command):
-    pass
+    def execute(self, *args: None):
+        self._editor.moveCursorToFileEnd()
 class moveCursorToNstringUP(Command):
-    pass
+    def execute(self, *args: int):
+        """
+        :param args: only 1 is N - number of string
+        :type args: int
+        """
+        return self._editor.moveCursorToNstringUp(args[0])
 class moveCursorToNstringDown(Command):
-    pass
+    def execute(self, *args: int):
+        """
+        :param args: only 1 is N - number of string
+        :type args: int
+        """
+        return self._editor.moveCursorToNstringDown(args[0])
 class deleteWordAfterCursor(Command):
-    pass
-class deleteWordUnclassCursor(Command):
-    pass
+    def execute(self, *args: None):
+        self._editor.deleteWordAfterCursor()
+class deleteWordUnderCursor(Command):
+    def execute(self, *args: None):
+        self._editor.deleteWordUnderCursor()
 class cutCurrentString(Command):
-    pass
+    def execute(self, *args: None):
+        self._editor.cutCurrentString()
 class copyCurrentString(Command):
-    pass
+    def execute(self, *args: None):
+        self._editor.copyCurrentString()
 class copyWordUnderCursor(Command):
-    pass
+    def execute(self, *args):
+        self._editor.copyWordUnderCursor()
 class pasteAfterCursor(Command):
-    pass
+    def execute(self, *args):
+        self._editor.pasteAfterCursor()

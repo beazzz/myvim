@@ -91,13 +91,13 @@ class Data:
         pass
     def moveCursorToFileEnd(self):
         pass
-    def moveCursorToNstringUP(self, N : int):
+    def moveCursorToNstringUp(self, N : int):
         pass
     def moveCursorToNstringDown(self, N : int):
         pass
     def deleteWordAfterCursor(self):
         pass
-    def deleteWordUndefCursor(self):
+    def deleteWordUnderCursor(self):
         pass
     def cutCurrentString(self):
         pass
@@ -152,7 +152,7 @@ class State:
     For Command is Invoker
     """
     def __init__(self, context : Data):
-        print("Create State", self)
+        #print("Create State", self)
         self._commands: dict[Command] = {}
         self._context = context
     
@@ -160,14 +160,14 @@ class State:
         """
         Pass control to Command
         """
-        print("State handle command", commandName, self)
+        #print("State handle command", commandName, self)
         self._commands[commandName].execute()
         
     def addCommmand(self, commandName : str, command: Command):
-        print("State add command", commandName, self)
+        #print("State add command", commandName, self)
         self._commands[commandName] = command
         
     def ChangeState(self, stateName : str):
-        print("State change state", stateName, self)
+        #print("State change state", stateName, self)
         self._context.ChangeState(stateName)
                                                                                                                               
