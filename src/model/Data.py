@@ -37,12 +37,12 @@ class Data:
         if url is not None:
             try:
                 with open(url, 'r', encoding="utf-8") as file:
-                    self.__string = MyString(file.read())
+                    self.__string = [MyString(line) for line in file.readlines()]
                 print(self.__string.c_str())
             except FileNotFoundError:
                 print("FileNotFound, please check correct path file!")
         else:
-            self.__string = MyString()
+            self.__string = [MyString()]
     
 class Command:
     """
