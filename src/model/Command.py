@@ -63,9 +63,9 @@ class moveScreenToUp(Command):
 class moveScreenToDown(Command):
     def execute(self, *args):
         self._editor.moveScreenToDown()
-class deleteWordAfterCursor(Command):
+class deleteSymbolAfterCursor(Command):
     def execute(self, *args: None):
-        self._editor.deleteWordAfterCursor()
+        self._editor.deleteSymbolAfterCursor()
 class deleteWordUnderCursor(Command):
     def execute(self, *args: None):
         self._editor.deleteWordUnderCursor()
