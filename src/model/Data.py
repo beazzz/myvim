@@ -44,13 +44,16 @@ class Data:
         return string.c_str()
     def getCountOfColumn(self):
         return len(self.__string)
-
+    def getLenString(self):
+        return self.__string[self.__posCursor['y']].size()
     def moveCursorRight(self, value : int):
         self.__posCursor['x'] += value
-
-        if self.__posCursor['x'] > len(self.getRaw()): 
-            self.__posCursor['x'] = 0
+        if (
+            self.__posCursor['x'] >= self.getLenString() and
+            self.__isEndFile() == False
+            ):
             self.moveCursorDown(1)
+            self.__posCursor['x'] = 0
 
         self.__posCursor['x_save'] = self.__posCursor['x']
         print("right completed",self)
@@ -58,15 +61,16 @@ class Data:
         self.__posCursor['x'] -= value
 
         if self.__posCursor['x'] < 0:
+            # is first column?
             if self.__posCursor['y'] == 0:
                 self.__posCursor['x'] = 0
             else:
-                self.__posCursor['x'] = len(self.getRaw())
-                #self.__posCursor['y'] -= 1
                 self.moveCursorUp(1)
+                self.__posCursor['x'] = self.getLenString()
 
         self.__posCursor['x_save'] = self.__posCursor['x']
         print("left completed", self)
+
     def moveCursorUp(self, value: int):
         self.__posCursor['y'] -= value
         if self.__posCursor['y'] < 0:
@@ -75,35 +79,50 @@ class Data:
         self.__doCorrectCursor()
     def moveCursorDown(self, value: int):
         self.__posCursor['y'] += value
-        value = self.getCountOfColumn()
-        if self.__posCursor['y'] >= value:
-            self.__posCursor['y'] = value - 1
+        value = self.getCountOfColumn() - 1
+        if self.__posCursor['y'] > value:
+            self.__posCursor['y'] = value
 
         self.__doCorrectCursor()
     def moveCursorToStringStart(self):
         self.__posCursor['x'] = 0
     def moveCursorToStringEnd(self):
-        self.__posCursor['x'] = len(self.getRaw())
+        self.__posCursor['x'] = self.getLenString()
     def moveCursorToRightWordEnd(self):
         while (
-            self.__string[self.__posCursor['y']][self.__posCursor['x']] == ' ' and 
-            self.__IsEndString()
+            (self.__string[self.__posCursor['y']][self.__posCursor['x']] == ' ' or
+            self.__string[self.__posCursor['y']][self.__posCursor['x']] == '\0') and
+            self.__isEndFile() == False
             ):
             self.moveCursorRight(1)
         while (
             self.__string[self.__posCursor['y']][self.__posCursor['x']] != ' ' and
-            self.__IsEndString()
+            self.__string[self.__posCursor['y']][self.__posCursor['x']] != '\0' and
+            self.__isEndFile() == False
             ):
             self.moveCursorRight(1)
 
     def moveCursorToLeftWordStart(self):
-        while (self.__string[self.__posCursor['y']][self.__posCursor['x']] == ' '
-               and self.__posCursor['x'] != 0
+        while (
+            (self.__string[self.__posCursor['y']][self.__posCursor['x']] == ' ' or
+            self.__string[self.__posCursor['y']][self.__posCursor['x']] == '\0') and
+            self.__isStartString() == False
                ):
             self.moveCursorLeft(1)
-        while (self.__string[self.__posCursor['y']][self.__posCursor['x']] != ' '
-               and self.__posCursor['x'] != 0):
+        while (
+            self.__string[self.__posCursor['y']][self.__posCursor['x']] != ' ' and
+            self.__string[self.__posCursor['y']][self.__posCursor['x']] != '\0' and
+            self.__isStartString() == False
+            ):
+            self.moveCursorLeft(1)
+
+        while (
+            (self.__string[self.__posCursor['y']][self.__posCursor['x']] == ' ' or
+            self.__string[self.__posCursor['y']][self.__posCursor['x']] == '\0') and
+            self.__isStartString() == False
+               ):
             self.moveCursorRight(1)
+        
 
     def moveCursorToFileStart(self):
         pass
@@ -129,7 +148,11 @@ class Data:
         pass
 
 
-        
+    def __isStartString(self):
+        """
+        return true if it is start
+        """
+        return self.__posCursor['x'] == 0
     def __IsEndString(self):
         """
         return true if it is end
@@ -140,14 +163,13 @@ class Data:
         return true if it is enf file
         """
         cursor = self.getPosCursor()
-        return cursor['x'] == len(self.getRaw()) and cursor['y'] == (len(self.__string)-1)
+        return cursor['x'] == len(self.getRaw()) and cursor['y'] == self.getCountOfColumn()-1
 
     def __open(self, url : str):
         if url is not None:
             try:
                 with open(url, 'r', encoding="utf-8") as file:
-                    #rstrip('\n')
-                    self.__string = [MyString(line) for line in file.readlines()]
+                    self.__string = [MyString(line.rstrip('\n')) for line in file.readlines()]
                 for string in self.__string:
                     print(string.c_str())
                 
@@ -159,7 +181,7 @@ class Data:
         """
         observing Cursor's coord after up and down command
         """
-        end_string = len(self.getRaw())
+        end_string = self.getLenString()#len(self.getRaw())
         if self.__posCursor['x_save'] > end_string:
             self.__posCursor['x'] = end_string
         else:
