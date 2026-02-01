@@ -47,11 +47,12 @@ class Data:
     def getLenString(self):
         return self.__string[self.__posCursor['y']].size()
     def moveCursorRight(self, value : int):
+        endString = self.getLenString()
         self.__posCursor['x'] += value
-        if (
-            self.__posCursor['x'] >= self.getLenString() and
-            self.__isEndFile() == False
-            ):
+
+        if (self.__isEndFile()):
+            self.__posCursor['x'] = endString
+        elif (self.__posCursor['x'] > endString):
             self.moveCursorDown(1)
             self.__posCursor['x'] = 0
 
@@ -89,26 +90,29 @@ class Data:
     def moveCursorToStringEnd(self):
         self.__posCursor['x'] = self.getLenString()
     def moveCursorToRightWordEnd(self):
-        while (
-            (self.__string[self.__posCursor['y']][self.__posCursor['x']] == ' ' or
-            self.__string[self.__posCursor['y']][self.__posCursor['x']] == '\0') and
-            self.__isEndFile() == False
-            ):
+        # move from cur pos
+        self.moveCursorRight(1)
+        # skip space
+        while (self.__string[self.__posCursor['y']][self.__posCursor['x']] == ' '):
             self.moveCursorRight(1)
+        # go to end
         while (
             self.__string[self.__posCursor['y']][self.__posCursor['x']] != ' ' and
-            self.__string[self.__posCursor['y']][self.__posCursor['x']] != '\0' and
-            self.__isEndFile() == False
+            self.__IsEndString() == False
             ):
             self.moveCursorRight(1)
 
     def moveCursorToLeftWordStart(self):
+        self.moveCursorLeft(1)
+        # skip space 
         while (
             (self.__string[self.__posCursor['y']][self.__posCursor['x']] == ' ' or
             self.__string[self.__posCursor['y']][self.__posCursor['x']] == '\0') and
             self.__isStartString() == False
                ):
             self.moveCursorLeft(1)
+
+        # go to start 
         while (
             self.__string[self.__posCursor['y']][self.__posCursor['x']] != ' ' and
             self.__string[self.__posCursor['y']][self.__posCursor['x']] != '\0' and
@@ -117,9 +121,8 @@ class Data:
             self.moveCursorLeft(1)
 
         while (
-            (self.__string[self.__posCursor['y']][self.__posCursor['x']] == ' ' or
-            self.__string[self.__posCursor['y']][self.__posCursor['x']] == '\0') and
-            self.__isStartString() == False
+            self.__string[self.__posCursor['y']][self.__posCursor['x']] == ' ' or
+            self.__string[self.__posCursor['y']][self.__posCursor['x']] == '\0'
                ):
             self.moveCursorRight(1)
         
@@ -157,13 +160,13 @@ class Data:
         """
         return true if it is end
         """
-        return self.getSymbol() == '\n' or self.__isEndFile()
+        return self.getSymbol() == '\0'
     def __isEndFile(self):
         """
         return true if it is enf file
         """
         cursor = self.getPosCursor()
-        return cursor['x'] == len(self.getRaw()) and cursor['y'] == self.getCountOfColumn()-1
+        return cursor['x'] >= self.getLenString() and cursor['y'] == self.getCountOfColumn()-1
 
     def __open(self, url : str):
         if url is not None:
