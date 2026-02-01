@@ -85,12 +85,14 @@ class Data:
     def moveCursorToStringEnd(self):
         self.__posCursor['x'] = len(self.getRaw())
     def moveCursorToRightWordEnd(self):
-        while (self.__string[self.__posCursor['y']][self.__posCursor['x']] == ' ' 
-               and self.__posCursor['x'] != 0
+        while (
+            self.__string[self.__posCursor['y']][self.__posCursor['x']] == ' ' and 
+            self.__IsEndString()
             ):
             self.moveCursorRight(1)
-        while (self.__string[self.__posCursor['y']][self.__posCursor['x']] != ' '
-               and self.__posCursor['x'] != 0
+        while (
+            self.__string[self.__posCursor['y']][self.__posCursor['x']] != ' ' and
+            self.__IsEndString()
             ):
             self.moveCursorRight(1)
 
@@ -128,13 +130,24 @@ class Data:
 
 
         
-
+    def __IsEndString(self):
+        """
+        return true if it is end
+        """
+        return self.getSymbol() == '\n' or self.__isEndFile()
+    def __isEndFile(self):
+        """
+        return true if it is enf file
+        """
+        cursor = self.getPosCursor()
+        return cursor['x'] == len(self.getRaw()) and cursor['y'] == (len(self.__string)-1)
 
     def __open(self, url : str):
         if url is not None:
             try:
                 with open(url, 'r', encoding="utf-8") as file:
-                    self.__string = [MyString(line.rstrip('\n')) for line in file.readlines()]
+                    #rstrip('\n')
+                    self.__string = [MyString(line) for line in file.readlines()]
                 for string in self.__string:
                     print(string.c_str())
                 
