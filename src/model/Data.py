@@ -101,7 +101,6 @@ class Data:
             self.__IsEndString() == False
             ):
             self.moveCursorRight(1)
-
     def moveCursorToLeftWordStart(self):
         self.moveCursorLeft(1)
         # skip space 
@@ -128,16 +127,20 @@ class Data:
         
 
     def moveCursorToFileStart(self):
-        pass
+        self.__posCursor['x'] = self.__posCursor['y'] = self.__posCursor['x_save'] = 0
     def moveCursorToFileEnd(self):
-        pass
+        self.__posCursor['y'] = self.__string[self.getCountOfColumn()-1]
+        self.__posCursor['x_save'] = self.__posCursor['x'] = self.getLenString()
     def moveCursorToNstring(self, N : int):
-        pass
+        if (N < 0 or N > self.getCountOfColumn()):
+            raise ValueError("N is not valid")
+        self.__posCursor['x_save'] = self.__posCursor['x'] = 0
+        self.__posCursor['y'] = N-1
     def moveScreenToUp(self):
         pass
     def moveScreenToDown(self):
         pass
-    def deleteWordAfterCursor(self):
+    def deleteSymbolAfterCursor(self):
         pass
     def deleteWordUnderCursor(self):
         pass
