@@ -10,23 +10,16 @@ def main():
     test.AddState("Normal", NormalState(test))
     test.ChangeState("Normal")
 
-    #test.handleInput("w")
-    # for i in range(23):
-    #     test.handleInput("right")
-    
-    # print(test.getPosCursor(),test.getSymbol())
+    print(test)
+    print()
+    test.handleInput("yy")
+    test.handleInput("NG", 2)
+    test.handleInput("p")
 
-    for i in range(30):
-        test.handleInput("w")
-        #test.handleInput("right")
-        print(test.getPosCursor(),test.getSymbol())
-    print()
-    print()
-    print()
-    for i in range(30):
-        test.handleInput("b")
-        print(test.getPosCursor(),test.getSymbol())
+    #test.handleInput("dd")
 
+    print(test)
+    print()
 
 if __name__ == '__main__':
     main()

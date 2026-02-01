@@ -18,10 +18,13 @@ class Data:
         self.__open(url)
         self.__states: dict[State] = {}
         self.__state = State(self)
-
-    def handleInput(self, commandName : str):
-        print("Data handle command", commandName, self)
-        self.__state.handleInput(commandName)
+        self.__buffer = MyString()
+    def __str__(self):
+        return "\n".join(string.c_str() for string in self.__string)
+    
+    def handleInput(self, commandName : str, *args):
+        print("Data handle command", commandName)
+        self.__state.handleInput(commandName, *args)
     def AddState(self, stateName: str, state : State):
         self.__states[stateName] = state
     def ChangeState(self, stateName : str):
@@ -57,7 +60,7 @@ class Data:
             self.__posCursor['x'] = 0
 
         self.__posCursor['x_save'] = self.__posCursor['x']
-        print("right completed",self)
+        print("right completed")
     def moveCursorLeft(self, value : int):
         self.__posCursor['x'] -= value
 
@@ -70,7 +73,7 @@ class Data:
                 self.__posCursor['x'] = self.getLenString()
 
         self.__posCursor['x_save'] = self.__posCursor['x']
-        print("left completed", self)
+        print("left completed")
 
     def moveCursorUp(self, value: int):
         self.__posCursor['y'] -= value
@@ -129,7 +132,7 @@ class Data:
     def moveCursorToFileStart(self):
         self.__posCursor['x'] = self.__posCursor['y'] = self.__posCursor['x_save'] = 0
     def moveCursorToFileEnd(self):
-        self.__posCursor['y'] = self.__string[self.getCountOfColumn()-1]
+        self.__posCursor['y'] = self.getCountOfColumn()-1
         self.__posCursor['x_save'] = self.__posCursor['x'] = self.getLenString()
     def moveCursorToNstring(self, N : int):
         if (N < 0 or N > self.getCountOfColumn()):
@@ -141,17 +144,34 @@ class Data:
     def moveScreenToDown(self):
         pass
     def deleteSymbolAfterCursor(self):
-        pass
+        self.__string[self.__posCursor['y']].erase(self.__posCursor['x'], 1)
     def deleteWordUnderCursor(self):
-        pass
-    def cutCurrentString(self):
-        pass
-    def copyCurrentString(self):
-        pass
+        """
+        incorrect find in MyString
+        """
+        len = self.__string[self.__posCursor['y']].find(" ", self.__posCursor['x'])
+        # if len == -1:
+        #     len = self.getLenString()
+        len = len - self.__posCursor['x']
+        self.__string[self.__posCursor['y']].erase(self.__posCursor['x'], len)
+    def cutCurrentString(self, NumString = None):
+        if NumString is None:
+            NumString = self.__posCursor['y']
+        self.buffer = self.__string.pop(NumString)
+    def copyCurrentString(self, NumString = None):
+        if NumString is None:
+            NumString = self.__posCursor['y']
+        self.__buffer = self.__string[NumString]
     def copyWordUnderCursor(self):
-        pass
+        len = self.__string[self.__posCursor['y']].find(" ", self.__posCursor['x'])
+        # if len == -1:
+        #     len = self.getLenString()
+        len = len - self.__posCursor['x']
+        self.__buffer = self.__string[self.__posCursor['y']].substr(self.__posCursor['x'], len)
     def pasteAfterCursor(self):
-        pass
+        NumString = self.__posCursor['y']
+        index = self.__posCursor['x']
+        self.__string[NumString].insert(index, self.__buffer)
 
 
     def __isStartString(self):
@@ -176,8 +196,9 @@ class Data:
             try:
                 with open(url, 'r', encoding="utf-8") as file:
                     self.__string = [MyString(line.rstrip('\n')) for line in file.readlines()]
-                for string in self.__string:
-                    print(string.c_str())
+                # for string in self.__string:
+                #     print(string.c_str())
+                #self.printAllStrings()
                 
             except FileNotFoundError:
                 print("FileNotFound, please check correct path file!")
@@ -215,12 +236,12 @@ class State:
         self._commands: dict[Command] = {}
         self._context = context
     
-    def handleInput(self, commandName : str):
+    def handleInput(self, commandName : str, *args):
         """
         Pass control to Command
         """
         #print("State handle command", commandName, self)
-        self._commands[commandName].execute()
+        self._commands[commandName].execute(*args)
         
     def addCommmand(self, commandName : str, command: Command):
         #print("State add command", commandName, self)

@@ -20,7 +20,7 @@ class NormalState(State):
         self.addCommmand("NG", Command.moveCursorToNstring(self._context))
         self.addCommmand("PG_UP", Command.moveScreenToUp(self._context))
         self.addCommmand("PG_DOWN", Command.moveScreenToDown(self._context))
-        self.addCommmand("x", Command.deleteWordAfterCursor(self._context))
+        self.addCommmand("x", Command.deleteSymbolAfterCursor(self._context))
         self.addCommmand("diw", Command.deleteWordUnderCursor(self._context))
         self.addCommmand("dd", Command.cutCurrentString(self._context))
         self.addCommmand("yy", Command.copyCurrentString(self._context))
