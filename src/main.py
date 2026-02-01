@@ -16,22 +16,16 @@ def main():
     
     # print(test.getPosCursor(),test.getSymbol())
 
-    # for i in range(30):
-    #     test.handleInput("w")
-    #     #test.handleInput("right")
-    #     print(test.getPosCursor(),test.getSymbol())
-    # print()
-    # print()
-    # print()
-    # for i in range(100):
-    #     #test.handleInput("b")
-    #     test.handleInput("left")
-    #     string = test.getRaw()
-    #     print(test.getPosCursor(),test.getSymbol())
-    # for i in range(100):
-    #     test.handleInput("left")
-    #     #test.handleInput("right")
-    #     print(test.getPosCursor(),test.getSymbol())
+    for i in range(30):
+        test.handleInput("w")
+        #test.handleInput("right")
+        print(test.getPosCursor(),test.getSymbol())
+    print()
+    print()
+    print()
+    for i in range(30):
+        test.handleInput("b")
+        print(test.getPosCursor(),test.getSymbol())
 
 
 if __name__ == '__main__':
