@@ -10,7 +10,7 @@ class Data:
     """
     def __init__(self, url = None):
         # contructor
-        print("Create", self)
+        #print("Create", self)
         self.__posCursor = {'x': 0,
                             'y': 0,
                             'x_save': 0}
@@ -30,7 +30,7 @@ class Data:
             print("State is incorrect")
             return
         self.__state = state
-        print("ChangeState", stateName, self)
+        #print("ChangeState", stateName, self)
 
     def SetPosCursor(self, dictOfCoord : dict):
         self.__posCursor = dictOfCoord
@@ -50,10 +50,10 @@ class Data:
 
         if self.__posCursor['x'] > len(self.getRaw()): 
             self.__posCursor['x'] = 0
-            self.__posCursor['y'] += 1
+            self.moveCursorDown(1)
 
         self.__posCursor['x_save'] = self.__posCursor['x']
-        print("right completed", self)
+        print("right completed",self)
     def moveCursorLeft(self, value : int):
         self.__posCursor['x'] -= value
 
@@ -62,7 +62,8 @@ class Data:
                 self.__posCursor['x'] = 0
             else:
                 self.__posCursor['x'] = len(self.getRaw())
-                self.__posCursor['y'] -= 1
+                #self.__posCursor['y'] -= 1
+                self.moveCursorUp(1)
 
         self.__posCursor['x_save'] = self.__posCursor['x']
         print("left completed", self)
@@ -84,9 +85,24 @@ class Data:
     def moveCursorToStringEnd(self):
         self.__posCursor['x'] = len(self.getRaw())
     def moveCursorToRightWordEnd(self):
-        pass
+        while (self.__string[self.__posCursor['y']][self.__posCursor['x']] == ' ' 
+               and self.__posCursor['x'] != 0
+            ):
+            self.moveCursorRight(1)
+        while (self.__string[self.__posCursor['y']][self.__posCursor['x']] != ' '
+               and self.__posCursor['x'] != 0
+            ):
+            self.moveCursorRight(1)
+
     def moveCursorToLeftWordStart(self):
-        pass
+        while (self.__string[self.__posCursor['y']][self.__posCursor['x']] == ' '
+               and self.__posCursor['x'] != 0
+               ):
+            self.moveCursorLeft(1)
+        while (self.__string[self.__posCursor['y']][self.__posCursor['x']] != ' '
+               and self.__posCursor['x'] != 0):
+            self.moveCursorRight(1)
+
     def moveCursorToFileStart(self):
         pass
     def moveCursorToFileEnd(self):
