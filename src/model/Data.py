@@ -177,6 +177,7 @@ class Data:
         self.__string[self.__posCursor['y']].clear()
         self.moveCursorToStringStart()
 
+    # For insert mode
     def insertText(self, text : str):
         """
         Insert text after cursor
@@ -214,7 +215,31 @@ class Data:
         self.deleteSymbolAfterCursor()
         self.insertText(symbol)
 
-    
+    # fixk pybind
+    def searchFromCursor(self, text: str):
+        """
+        Docstring for searchFromCursoro
+     
+        :param text: Text is searched
+        :type text: str
+        :return: None
+        :rtype: -
+        """
+        # cursor = self.getPosCursor()
+        # string = self.__string[self.__posCursor['y']].substr(self.__posCursor['x'])
+        # index = string.find(text)
+        # if (index == True):
+        #     self.moveCursorRight(index + self.__posCursor['x'])
+        #     return
+        
+        # while index == False and self.__isEndFile() == False:
+        #     self.moveCursorToStringEnd()
+        #     self.moveCursorRight(1)
+        #     index = self.__string[self.__posCursor['y']].find(text)
+
+        # if (index == False):
+        #     self.SetPosCursor(cursor)
+        pass
 
     def __isStartString(self):
         """

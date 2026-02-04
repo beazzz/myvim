@@ -47,8 +47,8 @@ class SearchState(State):
     def __init__(self, context):
         super().__init__(context)
         self.addCommmand("/text", Command.searchFromCursor(self._context))
-        self.addCommmand("n", Command.research(self._context))
-        self.addCommmand("N", Command.researchInvers(self._context))
+        #self.addCommmand("n", Command.research(self._context))
+        #self.addCommmand("N", Command.researchInvers(self._context))
 
 class CommandState(State):
     def __init__(self, context):

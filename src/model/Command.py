@@ -106,10 +106,11 @@ Search State
 """
 class searchFromCursor(Command):
     """
-    if find Cursor will place in start string
+    if find text Cursor will place in start text
     """
     def execute(self, *args):
-        pass
+        self._editor.searchFromCursor(args[0])
+        
 class research(Command):
     """
     repeat search
