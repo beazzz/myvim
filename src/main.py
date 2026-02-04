@@ -7,12 +7,12 @@ from view.View import View
 def main():
     # init
     test = Data("test.txt")
-    test.AddState("Search", State.SearchState(test))
-    test.ChangeState("Search")
+    test.AddState("Command", State.CommandState(test))
+    test.ChangeState("Command")
 
     print(test)
     print()
-    test.handleInput("/text", "now")
+    test.handleInput("h")
     # print("!!!", test.getPosCursor())
 
 if __name__ == '__main__':
