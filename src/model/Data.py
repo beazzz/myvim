@@ -19,7 +19,8 @@ class Data:
         self.__states: dict[State] = {}
         self.__state = State(self)
         self.__buffer = MyString()
-        self.__file : str = None
+        self.__url : str = None
+        self.__editStatus = False
     def __str__(self):
         return "\n".join(string.c_str() for string in self.__string)
     
@@ -146,6 +147,8 @@ class Data:
         pass
     def deleteSymbolAfterCursor(self):
         self.__string[self.__posCursor['y']].erase(self.__posCursor['x'], 1)
+
+        self.__SetEditFile()
     def deleteWordUnderCursor(self):
         """
         incorrect find in MyString
@@ -155,10 +158,14 @@ class Data:
         #     len = self.getLenString()
         len = len - self.__posCursor['x']
         self.__string[self.__posCursor['y']].erase(self.__posCursor['x'], len)
+
+        self.__SetEditFile()
     def cutCurrentString(self, NumString = None):
         if NumString is None:
             NumString = self.__posCursor['y']
         self.buffer = self.__string.pop(NumString)
+
+        self.__SetEditFile()
     def copyCurrentString(self, NumString = None):
         if NumString is None:
             NumString = self.__posCursor['y']
@@ -174,9 +181,12 @@ class Data:
         index = self.__posCursor['x']
         self.__string[NumString].insert(index, self.__buffer)
 
+        self.__SetEditFile()
     def deleteCurrentString(self):
         self.__string[self.__posCursor['y']].clear()
         self.moveCursorToStringStart()
+
+        self.__SetEditFile()
 
     # For insert mode
     def insertText(self, text : str):
@@ -184,6 +194,8 @@ class Data:
         Insert text after cursor
         """
         self.__string[self.__posCursor['y']].insert(self.__posCursor['x'], text)
+
+        self.__SetEditFile()
     def insertTextInStartString(self, text: str):
         """
         Go to start string and insert text
@@ -248,7 +260,7 @@ class Data:
             try:
                 with open(url, 'r', encoding="utf-8") as file:
                     self.__string = [MyString(line.rstrip('\n')) for line in file.readlines()]
-                    self.__file = file
+                    self.__url = url
                 # for string in self.__string:
                 #     print(string.c_str())
                 #self.printAllStrings()
@@ -258,9 +270,39 @@ class Data:
         else:
             self.__string = [MyString()]
 
-    def writeExit(self):
-
+    def writeFile(self, url : str):
+        if url is None:
+            url = self.__url
+            
+        for string in self.__string:
+            strings += string.c_str() + '\n'
+        strings = strings[:-1]
            
+        with open(self.url, "w", encoding="utf-8") as file:
+            file.write(strings)
+
+    def quit(self, must = None):
+        if must is not None:
+            pass
+        else:
+            if (self.__editStatus() == False):
+                print("Exit File")
+            else:
+                print("Cant exit. Use q!")
+
+    def writeQuit(self):
+        self.writeFile()
+        self.quit(True)
+
+    def showHelp(self):
+        for command in self.__state._commands:
+            print(command)
+
+
+
+
+
+    
 
     def __isStartString(self):
         """
@@ -288,7 +330,8 @@ class Data:
             self.__posCursor['x'] = end_string
         else:
             self.__posCursor['x'] = self.__posCursor['x_save']
-
+    def __SetEditFile(self):
+        self.__editStatus = True
 class Command:
     """
     Parent for OtherCommands
