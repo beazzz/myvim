@@ -129,7 +129,7 @@ Command State
 """
 class open(Command):
     def execute(self, *args):
-        pass
+        self._editor.open(args[0])
 class writeExit(Command):
     def execute(self, *args):
         pass

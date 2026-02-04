@@ -19,6 +19,7 @@ class Data:
         self.__states: dict[State] = {}
         self.__state = State(self)
         self.__buffer = MyString()
+        self.__file : str = None
     def __str__(self):
         return "\n".join(string.c_str() for string in self.__string)
     
@@ -247,6 +248,7 @@ class Data:
             try:
                 with open(url, 'r', encoding="utf-8") as file:
                     self.__string = [MyString(line.rstrip('\n')) for line in file.readlines()]
+                    self.__file = file
                 # for string in self.__string:
                 #     print(string.c_str())
                 #self.printAllStrings()
@@ -255,6 +257,9 @@ class Data:
                 print("FileNotFound, please check correct path file!")
         else:
             self.__string = [MyString()]
+
+    def writeExit(self):
+
            
 
     def __isStartString(self):
