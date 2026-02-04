@@ -87,19 +87,19 @@ Insert Mode
 """
 class insertText(Command):
     def  execute(self, *args):
-        self._editor.insertText(args)
+        self._editor.insertText(args[0])
 class insertTextInStartString(Command):
     def  execute(self, *args):
-        pass
+        self._editor.insertTextInStartString(args[0])
 class insertTextInEndString(Command):
     def  execute(self, *args):
-        pass
+        self._editor.insertTextInEndString(args[0])
 class deleteStringToInsert(Command):
     def  execute(self, *args):
-        pass
+        self._editor.deleteStringToInsert(args[0])
 class replaceSymbolUnderCursor(Command):
     def  execute(self, *args):
-        pass
+        self._editor.replaceSymbolUnderCursor(args[0])
 
 """
 Search State

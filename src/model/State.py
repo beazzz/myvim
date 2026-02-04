@@ -37,7 +37,7 @@ class InsertState(State):
         self.addCommmand("i", Command.insertText(self._context))
         self.addCommmand("I", Command.insertTextInStartString(self._context))
         self.addCommmand("A", Command.insertTextInEndString(self._context))
-        self.addCommmand("S", Command.cutStringToInsert(self._context))
+        self.addCommmand("S", Command.deleteStringToInsert(self._context))
         self.addCommmand("r", Command.replaceSymbolUnderCursor(self._context))
 
 class SearchState(State):

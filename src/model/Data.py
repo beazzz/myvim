@@ -182,14 +182,12 @@ class Data:
         Insert text after cursor
         """
         self.__string[self.__posCursor['y']].insert(self.__posCursor['x'], text)
-
     def insertTextInStartString(self, text: str):
         """
         Go to start string and insert text
         """
         self.moveCursorToStringStart()
-        self.insertText(str)
-    
+        self.insertText(text)
     def insertTextInEndString(self, text: str):
         """
         Docstring for insertTextInEndString
@@ -197,14 +195,26 @@ class Data:
         Go to string end and insert
         """
         self.moveCursorToStringEnd()
-        self.insertText(str)
-    
+        self.insertText(text) 
     def deleteStringToInsert(self, text: str):
         """
         detete String and insert
         """
-        self.delete
+        self.deleteCurrentString()
+        self.insertText(text)
+    def replaceSymbolUnderCursor(self, symbol: str):
+        """
+        Docstring for replaceSymbolUnderCursor
+        :describe: replace symbol on current cursor
+        :param text: 1 symbol
+        :type text: str
+        """
+        if (len(symbol) != 1):
+            raise ValueError("Symbol is incorrect")
+        self.deleteSymbolAfterCursor()
+        self.insertText(symbol)
 
+    
 
     def __isStartString(self):
         """
