@@ -1,7 +1,19 @@
 from .Data import State
 import model.Command as Command
 
-class NormalState(State):
+class ObserverState(State):
+    """
+    Help to change state
+    """
+
+    def __init__(self, context):
+        super().__init__(context)
+        self.addCommmand(":", Command.ChangeToStateCommand)
+        self.addCommmand("esc", Command.ChangeToStateNormal)
+        self.addCommmand("insert", Command.ChangeToStateInsert)
+        self.addCommmand("/", Command.ChangeToStateSearch)
+
+class NormalState(ObserverState):
     """
     state for navigate and edit
     """
@@ -27,8 +39,7 @@ class NormalState(State):
         self.addCommmand("yw", Command.copyWordUnderCursor(self._context))
         self.addCommmand("p", Command.pasteAfterCursor(self._context))
         
-
-class InsertState(State):
+class InsertState(ObserverState):
     """
     State for insert text
     """
@@ -40,7 +51,7 @@ class InsertState(State):
         self.addCommmand("S", Command.deleteStringToInsert(self._context))
         self.addCommmand("r", Command.replaceSymbolUnderCursor(self._context))
 
-class SearchState(State):
+class SearchState(ObserverState):
     """
     State for search text
     """
@@ -50,10 +61,10 @@ class SearchState(State):
         #self.addCommmand("n", Command.research(self._context))
         #self.addCommmand("N", Command.researchInvers(self._context))
 
-class CommandState(State):
+class CommandState(ObserverState):
     def __init__(self, context):
         super().__init__(context)
-        self.addCommmand("o filename", Command.open(self._context))
+        self.addCommmand("o", Command.open(self._context))
         self.addCommmand("x", Command.writeExit(self._context))
         self.addCommmand("w", Command.write(self._context))
         self.addCommmand("w filename", Command.writeFile(self._context))

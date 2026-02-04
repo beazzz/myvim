@@ -270,15 +270,16 @@ class Data:
         else:
             self.__string = [MyString()]
 
-    def writeFile(self, url : str):
+    def writeFile(self, url : str = None):
         if url is None:
             url = self.__url
-            
+        
+        strings = ""
         for string in self.__string:
             strings += string.c_str() + '\n'
         strings = strings[:-1]
            
-        with open(self.url, "w", encoding="utf-8") as file:
+        with open(url, "w", encoding="utf-8") as file:
             file.write(strings)
 
     def quit(self, must = None):

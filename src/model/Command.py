@@ -1,4 +1,18 @@
 from .Data import Command
+
+class ChangeToStateNormal(Command):
+    def execute(self, *args):
+        self._editor.ChangeState("Normal")
+class ChangeToStateInsert(Command):
+    def execute(self, *args):
+        self._editor.ChangeState("Insert")
+class ChangeToStateSearch(Command):
+    def execute(self, *args):
+        self._editor.ChangeState("Search")
+class ChangeToStateCommand(Command):
+    def execute(self, *args):
+        self._editor.ChangeState("Command")
+
 """
 Normal Mode
 """
@@ -132,30 +146,30 @@ class open(Command):
         self._editor.open(args[0])
 class writeExit(Command):
     def execute(self, *args):
-        pass
+        self._editor.writeFile()
 class write(Command):
     def execute(self, *args):
-        pass
+        self._editor.writeFile()
 class writeFile(Command):
     def execute(self, *args):
-        pass
+        self._editor.writeFile(args[0])
 class quitAfterSave(Command):
     def execute(self, *args):
-        pass
+        quit()
 class quitWithoutSave(Command):
     def execute(self, *args):
-        pass
+        quit()
 class writeQuit(Command):
     def execute(self, *args):
-        pass
+        self._editor.writeFile()
 class placeNstring(Command):
     def execute(self, *args):
-        pass
+        self._editor.moveCursorToNstring(args[0])
 class TurnOnOffNumStrings(Command):
     def execute(self, *args):
         pass
 class help(Command):
     def execute(self, *args):
-        pass
+        self._editor.showHelp()
 
 

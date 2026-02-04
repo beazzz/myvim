@@ -6,13 +6,19 @@ from view.View import View
 
 def main():
     # init
-    test = Data("test.txt")
+    test = Data()
     test.AddState("Command", State.CommandState(test))
-    test.ChangeState("Command")
+    test.AddState("Insert", State.InsertState(test))
+    test.AddState("Search", State.SearchState(test))
+    test.AddState("Normal", State.NormalState(test))
+    #test.ChangeState("Normal")
+    test.handleInput("esc")
 
+    # test.ChangeState("Co")
+    # test.handleInput("o", "test.txt")
+    # test.handleInput("w")
     print(test)
     print()
-    test.handleInput("h")
     # print("!!!", test.getPosCursor())
 
 if __name__ == '__main__':
