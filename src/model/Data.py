@@ -35,7 +35,7 @@ class Data:
             print("State is incorrect")
             return
         self.__state = state
-        #print("ChangeState", stateName, self)
+        print("ChangeState", stateName, self)
 
     def SetPosCursor(self, dictOfCoord : dict):
         self.__posCursor = dictOfCoord
@@ -367,6 +367,6 @@ class State:
         self._commands[commandName] = command
         
     def ChangeState(self, stateName : str):
-        #print("State change state", stateName, self)
+        # print("State change state", stateName, self)
         self._context.ChangeState(stateName)
                                                                                                                               

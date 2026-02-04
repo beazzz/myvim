@@ -8,10 +8,10 @@ class ObserverState(State):
 
     def __init__(self, context):
         super().__init__(context)
-        self.addCommmand(":", Command.ChangeToStateCommand)
-        self.addCommmand("esc", Command.ChangeToStateNormal)
-        self.addCommmand("insert", Command.ChangeToStateInsert)
-        self.addCommmand("/", Command.ChangeToStateSearch)
+        self.addCommmand(":", Command.ChangeToStateCommand(self._context))
+        self.addCommmand("esc", Command.ChangeToStateNormal(self._context))
+        self.addCommmand("insert", Command.ChangeToStateInsert(self._context))
+        self.addCommmand("/", Command.ChangeToStateSearch(self._context))
 
 class NormalState(ObserverState):
     """
