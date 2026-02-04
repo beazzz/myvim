@@ -173,6 +173,38 @@ class Data:
         index = self.__posCursor['x']
         self.__string[NumString].insert(index, self.__buffer)
 
+    def deleteCurrentString(self):
+        self.__string[self.__posCursor['y']].clear()
+        self.moveCursorToStringStart()
+
+    def insertText(self, text : str):
+        """
+        Insert text after cursor
+        """
+        self.__string[self.__posCursor['y']].insert(self.__posCursor['x'], text)
+
+    def insertTextInStartString(self, text: str):
+        """
+        Go to start string and insert text
+        """
+        self.moveCursorToStringStart()
+        self.insertText(str)
+    
+    def insertTextInEndString(self, text: str):
+        """
+        Docstring for insertTextInEndString
+        
+        Go to string end and insert
+        """
+        self.moveCursorToStringEnd()
+        self.insertText(str)
+    
+    def deleteStringToInsert(self, text: str):
+        """
+        detete String and insert
+        """
+        self.delete
+
 
     def __isStartString(self):
         """
@@ -190,7 +222,6 @@ class Data:
         """
         cursor = self.getPosCursor()
         return cursor['x'] >= self.getLenString() and cursor['y'] == self.getCountOfColumn()-1
-
     def __open(self, url : str):
         if url is not None:
             try:

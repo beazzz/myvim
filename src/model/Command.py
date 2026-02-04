@@ -87,14 +87,14 @@ Insert Mode
 """
 class insertText(Command):
     def  execute(self, *args):
-        pass
+        self._editor.insertText(args)
 class insertTextInStartString(Command):
     def  execute(self, *args):
         pass
 class insertTextInEndString(Command):
     def  execute(self, *args):
         pass
-class cutStringToInsert(Command):
+class deleteStringToInsert(Command):
     def  execute(self, *args):
         pass
 class replaceSymbolUnderCursor(Command):
