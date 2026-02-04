@@ -15,7 +15,7 @@ class Data:
                             'y': 0,
                             'x_save': 0}
         self.__view = View()
-        self.__open(url)
+        self.open(url)
         self.__states: dict[State] = {}
         self.__state = State(self)
         self.__buffer = MyString()
@@ -240,6 +240,22 @@ class Data:
         # if (index == False):
         #     self.SetPosCursor(cursor)
         pass
+    
+    # For Command state
+    def open(self, url : str):
+        if url is not None:
+            try:
+                with open(url, 'r', encoding="utf-8") as file:
+                    self.__string = [MyString(line.rstrip('\n')) for line in file.readlines()]
+                # for string in self.__string:
+                #     print(string.c_str())
+                #self.printAllStrings()
+                
+            except FileNotFoundError:
+                print("FileNotFound, please check correct path file!")
+        else:
+            self.__string = [MyString()]
+           
 
     def __isStartString(self):
         """
@@ -257,19 +273,7 @@ class Data:
         """
         cursor = self.getPosCursor()
         return cursor['x'] >= self.getLenString() and cursor['y'] == self.getCountOfColumn()-1
-    def __open(self, url : str):
-        if url is not None:
-            try:
-                with open(url, 'r', encoding="utf-8") as file:
-                    self.__string = [MyString(line.rstrip('\n')) for line in file.readlines()]
-                # for string in self.__string:
-                #     print(string.c_str())
-                #self.printAllStrings()
-                
-            except FileNotFoundError:
-                print("FileNotFound, please check correct path file!")
-        else:
-            self.__string = [MyString()]
+
     def __doCorrectCursor(self):
         """
         observing Cursor's coord after up and down command
