@@ -3,13 +3,13 @@ from view.View import View
 from model.Data import Data
 
 
-class Controller():
+class Controller:
     def __init__(self):
-        self.__canvas = curses.initscr()
-        self.__view = View(self.__canvas)
-        self.__state = State(self)
-        self.__states = {}
-        self.__commandName = ""
+        self._canvas = curses.initscr()
+        self._view = View(self.__canvas)
+        self._state = State(self)
+        self._states = {}
+        self._commandName = ""
 
     def ChangeState(self, stateName : str):
         state = self.__states.get(stateName)
@@ -27,7 +27,7 @@ class Controller():
     def execute(self):
         c = self.__canvas.getkey()
         
-    def __draw():
+    def _draw():
         pass
 
 class Command:
