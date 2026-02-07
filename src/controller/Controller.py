@@ -1,6 +1,6 @@
 from .Controller import Controller
-
-
+import controller.State
 
 class ControllerClient(Controller):
-    pass 
+    def __init__(self, context):
+        pass
