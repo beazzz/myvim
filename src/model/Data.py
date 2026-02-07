@@ -27,7 +27,7 @@ class Data:
     def handleInput(self, commandName : str, *args):
         print("Data handle command", commandName)
         return self.__state.handleInput(commandName, *args)
-    def AddState(self, stateName: str, state : State):
+    def AddState(self, stateName: str, state : 'State'):
         self.__states[stateName] = state
     def ChangeState(self, stateName : str):
         state = self.__states.get(stateName)
