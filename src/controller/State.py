@@ -10,9 +10,14 @@ class ObserverState(State):
         super().__init__(context)
         self.addCommmand(":", Command.ChangeToStateCommand(self._context))
         self.addCommmand("esc", Command.ChangeToStateNormal(self._context))
-        self.addCommmand("insert", Command.ChangeToStateInsert(self._context))
         self.addCommmand("/", Command.ChangeToStateSearch(self._context))
         self.addCommand("Error command", Command.ErrorCommand(self._context))
+
+        self.addCommmand("i", Command.ChangeToStateInsert(self._context))
+        self.addCommmand("I", Command.ChangeToStateInsert(self._context))
+        self.addCommmand("A", Command.ChangeToStateInsert(self._context))
+        self.addCommmand("S", Command.ChangeToStateInsert(self._context))
+        self.addCommmand("r", Command.ChangeToStateInsert(self._context))
 
 class NormalState(ObserverState):
     """
@@ -46,11 +51,11 @@ class InsertState(ObserverState):
     """
     def __init__(self, context):
         super().__init__(context)
-        self.addCommmand("i", Command.insertText(self._context))
-        self.addCommmand("I", Command.insertTextInStartString(self._context))
-        self.addCommmand("A", Command.insertTextInEndString(self._context))
-        self.addCommmand("S", Command.deleteStringToInsert(self._context))
-        self.addCommmand("r", Command.replaceSymbolUnderCursor(self._context))
+        # self.addCommmand("i", Command.insertText(self._context))
+        # self.addCommmand("I", Command.insertTextInStartString(self._context))
+        # self.addCommmand("A", Command.insertTextInEndString(self._context))
+        # self.addCommmand("S", Command.deleteStringToInsert(self._context))
+        # self.addCommmand("r", Command.replaceSymbolUnderCursor(self._context))
 
 class SearchState(ObserverState):
     """

@@ -10,9 +10,16 @@ class ClientController(Controller):
         self.AddState("Command", State.CommandState)
         self.ChangeState("Normal")
 
+    def __ParsingCommand(self, c : str):
+        if (c.isdigit()):
+            self._commandName += c
+
+        
 
     def execute(self):
-        pass
+        self.__ParsingCommand(self._canvas.getkey())
+        
+
 
     def draw(self):
         pass
