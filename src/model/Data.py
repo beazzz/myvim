@@ -16,26 +16,26 @@ class Data:
                             'x_save': 0}
         self.__view = View()
         self.open(url)
-        self.__states: dict[State] = {}
-        self.__state = State(self)
+        # self.__states: dict[State] = {}
+        # self.__state = State(self)
         self.__buffer = MyString()
         self.__url : str = None
         self.__editStatus = False
     def __str__(self):
         return "\n".join(string.c_str() for string in self.__string)
     
-    def handleInput(self, commandName : str, *args):
-        print("Data handle command", commandName)
-        return self.__state.handleInput(commandName, *args)
-    def AddState(self, stateName: str, state : 'State'):
-        self.__states[stateName] = state
-    def ChangeState(self, stateName : str):
-        state = self.__states.get(stateName)
-        if state is None:
-            print("State is incorrect")
-            return
-        self.__state = state
-        print("ChangeState", stateName, self)
+    # def handleInput(self, commandName : str, *args):
+    #     print("Data handle command", commandName)
+    #     return self.__state.handleInput(commandName, *args)
+    # def AddState(self, stateName: str, state : 'State'):
+    #     self.__states[stateName] = state
+    # def ChangeState(self, stateName : str):
+    #     state = self.__states.get(stateName)
+    #     if state is None:
+    #         print("State is incorrect")
+    #         return
+    #     self.__state = state
+    #     print("ChangeState", stateName, self)
 
     def SetPosCursor(self, dictOfCoord : dict):
         self.__posCursor = dictOfCoord
@@ -269,7 +269,6 @@ class Data:
                 print("FileNotFound, please check correct path file!")
         else:
             self.__string = [MyString()]
-
     def writeFile(self, url : str = None):
         if url is None:
             url = self.__url
@@ -281,7 +280,6 @@ class Data:
            
         with open(url, "w", encoding="utf-8") as file:
             file.write(strings)
-
     def quit(self, must = None):
         if must is not None:
             pass
@@ -290,21 +288,12 @@ class Data:
                 print("Exit File")
             else:
                 print("Cant exit. Use q!")
-
     def writeQuit(self):
         self.writeFile()
         self.quit(True)
-
     def showHelp(self):
         for command in self.__state._commands:
             print(command)
-
-
-
-
-
-    
-
     def __isStartString(self):
         """
         return true if it is start
@@ -321,7 +310,6 @@ class Data:
         """
         cursor = self.getPosCursor()
         return cursor['x'] >= self.getLenString() and cursor['y'] == self.getCountOfColumn()-1
-
     def __doCorrectCursor(self):
         """
         observing Cursor's coord after up and down command
@@ -333,6 +321,7 @@ class Data:
             self.__posCursor['x'] = self.__posCursor['x_save']
     def __SetEditFile(self):
         self.__editStatus = True
+
 class Command:
     """
     Parent for OtherCommands
