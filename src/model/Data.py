@@ -26,7 +26,7 @@ class Data:
     
     def handleInput(self, commandName : str, *args):
         print("Data handle command", commandName)
-        self.__state.handleInput(commandName, *args)
+        return self.__state.handleInput(commandName, *args)
     def AddState(self, stateName: str, state : State):
         self.__states[stateName] = state
     def ChangeState(self, stateName : str):
@@ -341,9 +341,9 @@ class Command:
         #print("Create command", self)
         self._editor = editor
 
-    def execute(self, *args):
+    def execute(self, *args) -> bool:
         #print("Execute command", self)
-        pass
+        return False
 class State:
     """
     Parent for OtherState
@@ -359,7 +359,7 @@ class State:
         Pass control to Command
         """
         #print("State handle command", commandName, self)
-        self._commands[commandName].execute(*args)
+        return self._commands[commandName].execute(*args)
         
     def addCommmand(self, commandName : str, command: Command):
         #print("State add command", commandName, self)
