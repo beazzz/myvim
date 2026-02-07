@@ -354,7 +354,7 @@ class State:
         self._commands: dict[Command] = {}
         self._context = context
     
-    def handleInput(self, commandName : str, *args):
+    def handleInput(self, commandName : str, *args)-> bool:
         """
         Pass control to Command
         """
