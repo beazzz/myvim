@@ -359,7 +359,8 @@ class State:
         Pass control to Command
         """
         #print("State handle command", commandName, self)
-        return self._commands[commandName].execute(*args)
+        command = self._commands.get(commandName)
+        return command.execute(*args)
         
     def addCommmand(self, commandName : str, command: Command):
         #print("State add command", commandName, self)
