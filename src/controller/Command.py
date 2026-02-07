@@ -1,4 +1,4 @@
-from .Controller import Command
+from .Core import Command
 """
 Observer
 """

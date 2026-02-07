@@ -1,10 +1,9 @@
-from controller.Controller import Controller
+from controller.Core import Controller
 import curses
 
 def main():
-    canvas = curses.initscr()
-
-    print(canvas.getkey())
+    control = Controller()
+    control.execute()
 
 if __name__ == '__main__':
     main()
