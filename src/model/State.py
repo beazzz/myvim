@@ -12,6 +12,7 @@ class ObserverState(State):
         self.addCommmand("esc", Command.ChangeToStateNormal(self._context))
         self.addCommmand("insert", Command.ChangeToStateInsert(self._context))
         self.addCommmand("/", Command.ChangeToStateSearch(self._context))
+        self.addCommand("Error command", Command.ErrorCommand(self._context))
 
 class NormalState(ObserverState):
     """

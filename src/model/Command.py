@@ -14,6 +14,9 @@ class ChangeToStateSearch(Command):
 class ChangeToStateCommand(Command):
     def execute(self, *args)-> bool:
         return self._editor.ChangeState("Command")
+class ErrorCommand(Command):
+    def execute(self, *args)-> bool:
+        return False
 
 """
 Normal Mode
