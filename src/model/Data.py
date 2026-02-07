@@ -344,7 +344,6 @@ class Command:
     def execute(self, *args):
         #print("Execute command", self)
         pass
-
 class State:
     """
     Parent for OtherState

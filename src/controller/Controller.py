@@ -4,9 +4,9 @@ from model.Data import Data
 
 
 class Controller():
-    def __init__(self):
+    def __init__(self, model : Data = None):
         self.view = View()
-        self.model = Data()
+        self.model = model
 
     def execute(self, commandName):
         self.model.handleInput(commandName)

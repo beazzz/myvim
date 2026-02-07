@@ -1,5 +1,7 @@
 from .Data import Command
-
+"""
+Observer
+"""
 class ChangeToStateNormal(Command):
     def execute(self, *args):
         self._editor.ChangeState("Normal")
