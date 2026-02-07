@@ -29,13 +29,6 @@ class Data:
     #     return self.__state.handleInput(commandName, *args)
     # def AddState(self, stateName: str, state : 'State'):
     #     self.__states[stateName] = state
-    # def ChangeState(self, stateName : str):
-    #     state = self.__states.get(stateName)
-    #     if state is None:
-    #         print("State is incorrect")
-    #         return
-    #     self.__state = state
-    #     print("ChangeState", stateName, self)
 
     def SetPosCursor(self, dictOfCoord : dict):
         self.__posCursor = dictOfCoord

@@ -1,8 +1,8 @@
-from controller.Core import Controller
+from controller.Controller import ClientController
 import curses
 
 def main():
-    control = Controller()
+    control = ClientController()
     control.execute()
 
 if __name__ == '__main__':

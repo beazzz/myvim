@@ -1,4 +1,4 @@
-from .Controller import State
+from .Core import State
 import controller.Command as Command
 
 class ObserverState(State):

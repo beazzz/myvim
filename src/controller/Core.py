@@ -6,7 +6,7 @@ from model.Data import Data
 class Controller:
     def __init__(self):
         self._canvas = curses.initscr()
-        self._view = View(self.__canvas)
+        self._view = View(self._canvas)
         self._state = State(self)
         self._states = {}
         self._commandName = ""
@@ -16,16 +16,16 @@ class Controller:
         if state is None:
             print("State is incorrect")
             return
-        self.__state = state
+        self._state = state
 
     def AddState(self, stateName: str, state : 'State'):
-        self.__states[stateName] = state
+        self._states[stateName] = state
 
     def handleInput(self, commandName : str, *args):
-        return self.__state.handleInput(commandName, *args)
+        return self._state.handleInput(commandName, *args)
 
     def execute(self):
-        c = self.__canvas.getkey()
+        c = self._canvas.getkey()
         
     def _draw():
         pass
