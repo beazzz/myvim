@@ -12,7 +12,7 @@ class Controller:
         self._commandName = ""
 
     def ChangeState(self, stateName : str):
-        state = self.__states.get(stateName)
+        state = self._states.get(stateName)
         if state is None:
             print("State is incorrect")
             return
@@ -25,7 +25,7 @@ class Controller:
         return self._state.handleInput(commandName, *args)
 
     def execute(self):
-        c = self._canvas.getkey()
+        pass
         
     def _draw():
         pass

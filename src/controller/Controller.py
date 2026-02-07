@@ -8,3 +8,11 @@ class ClientController(Controller):
         self.AddState("Insert", State.InsertState)
         self.AddState("Search", State.SearchState)
         self.AddState("Command", State.CommandState)
+        self.ChangeState("Normal")
+
+
+    def execute(self):
+        pass
+
+    def draw(self):
+        pass
