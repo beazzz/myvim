@@ -1,4 +1,4 @@
-from .Data import Command
+from .Controller import Command
 """
 Observer
 """
@@ -77,10 +77,10 @@ class moveCursorToNstring(Command):
         """
         return self._editor.moveCursorToNstring(args[0])
 class moveScreenToUp(Command):
-    def execute(self, *args)-> bool:
+    def execute(self, *args: None)-> bool:
         return self._editor.moveScreenToUp()
 class moveScreenToDown(Command):
-    def execute(self, *args)-> bool:
+    def execute(self, *args: None)-> bool:
         return self._editor.moveScreenToDown()
 class deleteSymbolAfterCursor(Command):
     def execute(self, *args: None)-> bool:
@@ -95,10 +95,10 @@ class copyCurrentString(Command):
     def execute(self, *args: None)-> bool:
         return self._editor.copyCurrentString()
 class copyWordUnderCursor(Command):
-    def execute(self, *args)-> bool:
+    def execute(self, *args: None)-> bool:
         return self._editor.copyWordUnderCursor()
 class pasteAfterCursor(Command):
-    def execute(self, *args)-> bool:
+    def execute(self, *args: None)-> bool:
         return self._editor.pasteAfterCursor()
 
 """

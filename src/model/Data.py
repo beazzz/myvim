@@ -322,40 +322,4 @@ class Data:
     def __SetEditFile(self):
         self.__editStatus = True
 
-class Command:
-    """
-    Parent for OtherCommands
-    """
-    def __init__(self, editor: Data):
-        #print("Create command", self)
-        self._editor = editor
-
-    def execute(self, *args) -> bool:
-        #print("Execute command", self)
-        return False
-class State:
-    """
-    Parent for OtherState
-    For Command is Invoker
-    """
-    def __init__(self, context : Data):
-        #print("Create State", self)
-        self._commands: dict[Command] = {}
-        self._context = context
-    
-    def handleInput(self, commandName : str, *args)-> bool:
-        """
-        Pass control to Command
-        """
-        #print("State handle command", commandName, self)
-        command = self._commands.get(commandName, "Error command")
-        return command.execute(*args)
-        
-    def addCommmand(self, commandName : str, command: Command):
-        #print("State add command", commandName, self)
-        self._commands[commandName] = command
-        
-    def ChangeState(self, stateName : str):
-        # print("State change state", stateName, self)
-        self._context.ChangeState(stateName)
                                                                                                                               

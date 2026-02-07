@@ -1,5 +1,5 @@
-from .Data import State
-import model.Command as Command
+from .Controller import State
+import controller.Command as Command
 
 class ObserverState(State):
     """
