@@ -27,6 +27,8 @@ class Data:
     def SetPosCursor(self, dictOfCoord : dict):
         self.__posCursor = dictOfCoord
 
+    def getString(self):
+        return self.__string
     def getPosCursor(self):
         return self.__posCursor
     def getSymbol(self):
