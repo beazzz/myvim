@@ -9,7 +9,7 @@ class ObserverState(State):
     def __init__(self, context, model):
         super().__init__(context, model)
         self.addCommand(":", Command.ChangeToStateCommand(self._context))
-        self.addCommand("esc", Command.ChangeToStateNormal(self._context))
+        self.addCommand("\x1b", Command.ChangeToStateNormal(self._context))
         self.addCommand("/", Command.ChangeToStateSearch(self._context))
         self.addCommand("Error command", Command.ErrorCommand(self._context))
 
@@ -25,21 +25,21 @@ class NormalState(ObserverState):
     """
     def __init__(self, context, model):
         super().__init__(context, model)
-        self.addCommand("right", Command.moveCursorRight(self._model))
-        self.addCommand("left", Command.moveCursorLeft(self._model))
-        self.addCommand("up", Command.moveCursorUp(self._model))
-        self.addCommand("down", Command.moveCursorDown(self._model))
-        self.addCommand("0", Command.moveCursorToStartString(self._model))
+        self.addCommand("KEY_B3", Command.moveCursorRight(self._model))
+        self.addCommand("KEY_B1", Command.moveCursorLeft(self._model))
+        self.addCommand("KEY_A2", Command.moveCursorUp(self._model))
+        self.addCommand("KEY_C2", Command.moveCursorDown(self._model))
+        self.addCommand("^", Command.moveCursorToStartString(self._model))
         self.addCommand("$", Command.moveCursorToEndString(self._model))
         self.addCommand("w", Command.moveCursorToRightWordEnd(self._model))
         self.addCommand("b", Command.moveCursorToLeftWordStart(self._model))
         self.addCommand("gg", Command.moveCursorToFileStart(self._model))
         self.addCommand("G", Command.moveCursorToFileEnd(self._model))
         self.addCommand("NG", Command.moveCursorToNstring(self._model))
-        self.addCommand("PG_UP", Command.moveScreenToUp(self._model))
-        self.addCommand("PG_DOWN", Command.moveScreenToDown(self._model))
+        self.addCommand("KEY_A3", Command.moveScreenToUp(self._model)) # idk
+        self.addCommand("KEY_C3", Command.moveScreenToDown(self._model)) # idk
         self.addCommand("x", Command.deleteSymbolAfterCursor(self._model))
-        self.addCommand("diw", Command.deleteWordUnderCursor(self._model))
+        self.addCommand("diw", Command.deleteWordUnderCursor(self._model)) # probel(need  fix MyString find)
         self.addCommand("dd", Command.cutCurrentString(self._model))
         self.addCommand("yy", Command.copyCurrentString(self._model))
         self.addCommand("yw", Command.copyWordUnderCursor(self._model))
@@ -48,8 +48,8 @@ class NormalState(ObserverState):
         self.__num = ""
         self.__CommandName = ""
     def handleInput(self, ch: str) -> bool:
-        print("handleInput", ch, "from", self)
-        if ch.isdigit() and  not self.__CommandName:
+        # print("handleInput", ch, "from", self)
+        if  ch.isdigit() and  not self.__CommandName:
             if not self.__num:
                 self.__CommandName+= 'N' # for detect number before command
             self.__num += ch

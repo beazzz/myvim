@@ -149,16 +149,16 @@ class Data:
         self.__string[self.__posCursor['y']].erase(self.__posCursor['x'], len)
 
         self.__SetEditFile()
-    def cutCurrentString(self, NumString = None):
-        if NumString is None:
-            NumString = self.__posCursor['y']
-        self.buffer = self.__string.pop(NumString)
+    def cutCurrentString(self):
+        self.copyCurrentString()
+        NumString = self.__posCursor['y']
+        self.__string[NumString].clear()
 
         self.__SetEditFile()
-    def copyCurrentString(self, NumString = None):
-        if NumString is None:
-            NumString = self.__posCursor['y']
-        self.__buffer = self.__string[NumString]
+    def copyCurrentString(self):
+        # if NumString is None:
+        NumString = self.__posCursor['y']
+        self.__buffer = self.__string[NumString].c_str()
     def copyWordUnderCursor(self):
         len = self.__string[self.__posCursor['y']].find(" ", self.__posCursor['x'])
         # if len == -1:

@@ -10,7 +10,10 @@ class ClientController(Controller):
         self.AddState("Command", State.CommandState(self, self._model))
         self.ChangeState("Normal")
 
+        self._canvas.keypad(True)
+
     def draw(self):
+        print(self._model.getPosCursor())
         self._view.draw(self._model.getString(), self._model.getPosCursor())
 
     def execute(self):

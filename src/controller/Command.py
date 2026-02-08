@@ -4,15 +4,19 @@ Observer
 """
 class ChangeToStateNormal(Command):
     def execute(self, *args) -> bool:
+        print("ChangeToStateNormal")
         return self._editor.ChangeState("Normal")
 class ChangeToStateInsert(Command):
     def execute(self, *args)-> bool:
+        print("ChangeToStateInsert")
         return self._editor.ChangeState("Insert")
 class ChangeToStateSearch(Command):
     def execute(self, *args)-> bool:
+        print("ChangeToStateSearch")
         return self._editor.ChangeState("Search")
 class ChangeToStateCommand(Command):
     def execute(self, *args)-> bool:
+        print("ChangeToStateSearch")
         return self._editor.ChangeState("Command")
 class ErrorCommand(Command):
     def execute(self, *args)-> bool:
@@ -26,6 +30,7 @@ class moveCursorRight(Command):
     move cursor right
     """
     def execute(self, *args : None)-> bool:
+        print("moveCursorRight")
         return self._editor.moveCursorRight(1)      
 class moveCursorLeft(Command):
     """
@@ -108,7 +113,11 @@ Insert Mode
 """
 class insertText(Command):
     def  execute(self, *args)-> bool:
-        return self._editor.insertText(args[0])
+        status = self._editor.insertText(args[0])
+        if (status == False):
+            return status
+        status = self._editor.moveCursorRight(1)
+        return status
 class insertTextInStartString(Command):
     def  execute(self, *args)-> bool:
         return self._editor.insertTextInStartString(args[0])

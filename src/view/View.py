@@ -7,6 +7,7 @@ class View():
         self.__canvas = canvas
 
     def draw(self, strings : list, cursorPos):
+        self.__canvas.clear()
         # print(string)
         i = 0
         for string in strings:
