@@ -80,14 +80,13 @@ class InsertState(ObserverState):
     """
     def __init__(self, context, model):
         super().__init__(context, model)
-        # self.addCommand("i", Command.insertText(self._model))
+        self.addCommand("i", Command.insertText(self._model))
         # self.addCommand("I", Command.insertTextInStartString(self._model))
         # self.addCommand("A", Command.insertTextInEndString(self._model))
         # self.addCommand("S", Command.deleteStringToInsert(self._model))
         # self.addCommand("r", Command.replaceSymbolUnderCursor(self._model))
-        self.__CommandName = "i"
     def handleInput(self, ch) -> bool:
-        command = self._commands.get(self.__CommandName)
+        command = self._commands.get('i')
         return command.execute(ch)
 
 class SearchState(ObserverState):
