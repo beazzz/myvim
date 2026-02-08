@@ -8,16 +8,16 @@ class ObserverState(State):
 
     def __init__(self, context, model):
         super().__init__(context, model)
-        self.addCommand(":", Command.ChangeToStateCommand(self._model))
-        self.addCommand("esc", Command.ChangeToStateNormal(self._model))
-        self.addCommand("/", Command.ChangeToStateSearch(self._model))
-        self.addCommand("Error command", Command.ErrorCommand(self._model))
+        self.addCommand(":", Command.ChangeToStateCommand(self._context))
+        self.addCommand("esc", Command.ChangeToStateNormal(self._context))
+        self.addCommand("/", Command.ChangeToStateSearch(self._context))
+        self.addCommand("Error command", Command.ErrorCommand(self._context))
 
-        self.addCommand("i", Command.ChangeToStateInsert(self._model))
-        self.addCommand("I", Command.ChangeToStateInsert(self._model))
-        self.addCommand("A", Command.ChangeToStateInsert(self._model))
-        self.addCommand("S", Command.ChangeToStateInsert(self._model))
-        self.addCommand("r", Command.ChangeToStateInsert(self._model))
+        self.addCommand("i", Command.ChangeToStateInsert(self._context))
+        self.addCommand("I", Command.ChangeToStateInsert(self._context))
+        self.addCommand("A", Command.ChangeToStateInsert(self._context))
+        self.addCommand("S", Command.ChangeToStateInsert(self._context))
+        self.addCommand("r", Command.ChangeToStateInsert(self._context))
 
 class NormalState(ObserverState):
     """
