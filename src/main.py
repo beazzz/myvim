@@ -5,6 +5,8 @@ def main():
     control = ClientController("test.txt")
     while True:
         control.draw()
+        control.execute()
+        
     # print()
     # control.handleInput("g")
     # print()

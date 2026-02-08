@@ -12,3 +12,7 @@ class ClientController(Controller):
 
     def draw(self):
         self._view.draw(self._model.getString(), self._model.getPosCursor())
+
+    def execute(self):
+        ch = self._canvas.getkey()
+        self.handleInput(ch)
