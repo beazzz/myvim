@@ -89,6 +89,11 @@ class InsertState(ObserverState):
     def handleInput(self, ch) -> bool:
         print("InsertState: handleInput", ch)
         if self.__commandName:
+            if ch == "\x1b": # is ESC?
+                command = self._commands.get(ch)
+                self.__commandName = ""
+                return command.execute()
+            
             command = self._commands.get(self.__commandName)
             return command.execute(ch)
         else:
