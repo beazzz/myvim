@@ -9,7 +9,7 @@ class ChangeToStateNormal(Command):
 class ChangeToStateInsert(Command):
     def execute(self, *args)-> bool:
         print("ChangeToStateInsert")
-        return self._editor.ChangeState("Insert")
+        return self._editor.ChangeState("Insert", args[0])
 class ChangeToStateSearch(Command):
     def execute(self, *args)-> bool:
         print("ChangeToStateSearch")
@@ -120,13 +120,13 @@ class insertText(Command):
         return status
 class insertTextInStartString(Command):
     def  execute(self, *args)-> bool:
-        return self._editor.insertTextInStartString(args[0])
+        return self._editor.insertTextInStartString()
 class insertTextInEndString(Command):
     def  execute(self, *args)-> bool:
-        return self._editor.insertTextInEndString(args[0])
+        return self._editor.insertTextInEndString()
 class deleteStringToInsert(Command):
     def  execute(self, *args)-> bool:
-        return self._editor.deleteStringToInsert(args[0])
+        return self._editor.deleteStringToInsert()
 class replaceSymbolUnderCursor(Command):
     def  execute(self, *args)-> bool:
         return self._editor.replaceSymbolUnderCursor(args[0])

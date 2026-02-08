@@ -68,7 +68,7 @@ class NormalState(ObserverState):
         if self.__num:
             status = command.execute(int(self.__num))
         else:
-            status = command.execute()
+            status = command.execute(ch)
         self.__CommandName = ""
         self.__num = ""
         return status
@@ -87,6 +87,7 @@ class InsertState(ObserverState):
         self.addCommand("r", Command.replaceSymbolUnderCursor(self._model))
         self.__commandName = ""
     def handleInput(self, ch) -> bool:
+        print("InsertState: handleInput", ch)
         if self.__commandName:
             command = self._commands.get(self.__commandName)
             return command.execute(ch)

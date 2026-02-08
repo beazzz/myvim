@@ -11,12 +11,16 @@ class Controller:
         self._state = State(self, self._model)
         self._states = {}
 
-    def ChangeState(self, stateName : str):
+    def ChangeState(self, stateName : str, *args):
         state = self._states.get(stateName)
         if state is None:
             print("State is incorrect")
             return
         self._state = state
+        
+        if len(args) > 0:
+            print(args[0])
+            self.handleInput(args[0])
         # print("ChangeState:", stateName, self)
 
     def AddState(self, stateName: str, state : 'State'):

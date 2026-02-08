@@ -182,26 +182,26 @@ class Data:
         self.__string[self.__posCursor['y']].insert(self.__posCursor['x'], text)
 
         self.__SetEditFile()
-    def insertTextInStartString(self, text: str):
+    def insertTextInStartString(self):
         """
         Go to start string and insert text
         """
         self.moveCursorToStringStart()
-        self.insertText(text)
-    def insertTextInEndString(self, text: str):
+        # self.insertText(text)
+    def insertTextInEndString(self):
         """
         Docstring for insertTextInEndString
         
         Go to string end and insert
         """
         self.moveCursorToStringEnd()
-        self.insertText(text) 
-    def deleteStringToInsert(self, text: str):
+        # self.insertText(text) 
+    def deleteStringToInsert(self):
         """
         detete String and insert
         """
         self.deleteCurrentString()
-        self.insertText(text)
+        # self.insertText(text)
     def replaceSymbolUnderCursor(self, symbol: str):
         """
         Docstring for replaceSymbolUnderCursor
