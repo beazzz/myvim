@@ -85,12 +85,18 @@ class InsertState(ObserverState):
         self.addCommand("A", Command.insertTextInEndString(self._model))
         self.addCommand("S", Command.deleteStringToInsert(self._model))
         self.addCommand("r", Command.replaceSymbolUnderCursor(self._model))
+        self.__commandName = ""
     def handleInput(self, ch) -> bool:
-        if (ch == "esc"):
-            command = self._commands.get(ch)
+        if self.__commandName:
+            command = self._commands.get(self.__commandName)
+            return command.execute(ch)
         else:
-            command = self._commands.get('i')
-        return command.execute(ch)
+            command = self._commands.get(ch)
+            if command:
+                self.__commandName = 'i'
+                return command.execute()
+            return False
+
 
 class SearchState(ObserverState):
     """
