@@ -8,5 +8,10 @@ def main():
     print()
     control.handleInput("g")
 
+    print()
+    control.handleInput("g")
+    print()
+    control.handleInput("g")
+
 if __name__ == '__main__':
     main()

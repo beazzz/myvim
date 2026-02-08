@@ -45,25 +45,28 @@ class NormalState(ObserverState):
         self.addCommand("yw", Command.copyWordUnderCursor(self._model))
         self.addCommand("p", Command.pasteAfterCursor(self._model))
 
-        self.num = ""
-        self.CommandName = ""
+        self.__num = ""
+        self.__CommandName = ""
     def handleInput(self, ch: str) -> bool:
         print("handleInput", ch, "from", self)
-        if ch.isdigit() and  not self.CommandName:
-            self.num += ch
+        if ch.isdigit() and  not self.__CommandName:
+            self.__num += ch
         else:
-            self.CommandName+= ch
+            self.__CommandName+= ch
 
-        command = self._commands.get(self.CommandName, "")
+        command = self._commands.get(self.__CommandName, "")
         if not command:
             for key in self._commands.keys():
-                if self.CommandName in key:
+                if self.__CommandName in key:
                     return False
-            self.CommandName = ""
-            self.num = ""
+            self.__CommandName = ""
+            self.__num = ""
             return False
+        
+        self.__CommandName = ""
+        self.__num = ""
         try:
-            return command.execute([int(self.num)])
+            return command.execute([int(self.__num)])
         except ValueError:
             return command.execute([0])
 
