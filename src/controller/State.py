@@ -44,6 +44,26 @@ class NormalState(ObserverState):
         self.addCommmand("yy", Command.copyCurrentString(self._context))
         self.addCommmand("yw", Command.copyWordUnderCursor(self._context))
         self.addCommmand("p", Command.pasteAfterCursor(self._context))
+
+        self.num = ""
+        self.CommandName = ""
+    def handleInput(self, ch: str) -> bool:
+        if ch.isdigit() and  not self.CommandName:
+            self.num += ch
+        else:
+            self.CommandName+= ch
+
+        command = self._commands.get(self.CommandName, "")
+        if not command:
+            for key in self._commands.keys():
+                if self.CommandName in key:
+                    return False
+            self.CommandName = ""
+            self.num = ""
+            return False
+
+        return command.execute(int(self.num))
+
         
 class InsertState(ObserverState):
     """

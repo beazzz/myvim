@@ -9,7 +9,6 @@ class Controller:
         self._view = View(self._canvas)
         self._state = State(self)
         self._states = {}
-        self._commandName = ""
 
     def ChangeState(self, stateName : str):
         state = self._states.get(stateName)
@@ -21,8 +20,8 @@ class Controller:
     def AddState(self, stateName: str, state : 'State'):
         self._states[stateName] = state
 
-    def handleInput(self, commandName : str, *args):
-        return self._state.handleInput(commandName, *args)
+    def handleInput(self, commandName : str):
+        return self._state.handleInput(commandName)
 
     def execute(self):
         pass
@@ -50,13 +49,18 @@ class State:
         self._commands: dict[Command] = {}
         self._context = context
     
-    def handleInput(self, commandName : str, *args)-> bool:
+    def handleInput(self, ch : str)-> bool:
         """
         Pass control to Command
         """
-        #print("State handle command", commandName, self)
-        command = self._commands.get(commandName, "Error command")
-        return command.execute(*args)
+        return False
+        # commandName, args = self.ParsingInput(self, ch)
+
+        # #print("State handle command", commandName, self)
+        # command = self._commands.get(commandName, "")
+        # if command:
+        #     return command.execute(args)
+        # return False
         
     def addCommmand(self, commandName : str, command: Command):
         #print("State add command", commandName, self)
