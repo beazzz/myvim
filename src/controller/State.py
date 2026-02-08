@@ -86,7 +86,10 @@ class InsertState(ObserverState):
         # self.addCommand("S", Command.deleteStringToInsert(self._model))
         # self.addCommand("r", Command.replaceSymbolUnderCursor(self._model))
     def handleInput(self, ch) -> bool:
-        command = self._commands.get('i')
+        if (ch == "esc"):
+            command = self._commands.get(ch)
+        else:
+            command = self._commands.get('i')
         return command.execute(ch)
 
 class SearchState(ObserverState):
