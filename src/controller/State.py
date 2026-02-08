@@ -81,10 +81,10 @@ class InsertState(ObserverState):
     def __init__(self, context, model):
         super().__init__(context, model)
         self.addCommand("i", Command.insertText(self._model))
-        # self.addCommand("I", Command.insertTextInStartString(self._model))
-        # self.addCommand("A", Command.insertTextInEndString(self._model))
-        # self.addCommand("S", Command.deleteStringToInsert(self._model))
-        # self.addCommand("r", Command.replaceSymbolUnderCursor(self._model))
+        self.addCommand("I", Command.insertTextInStartString(self._model))
+        self.addCommand("A", Command.insertTextInEndString(self._model))
+        self.addCommand("S", Command.deleteStringToInsert(self._model))
+        self.addCommand("r", Command.replaceSymbolUnderCursor(self._model))
     def handleInput(self, ch) -> bool:
         if (ch == "esc"):
             command = self._commands.get(ch)

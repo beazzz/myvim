@@ -153,7 +153,8 @@ class Data:
         self.copyCurrentString()
         NumString = self.__posCursor['y']
         self.__string[NumString].clear()
-
+        self.__string[NumString].shrink_to_fit()
+        self.moveCursorToStringStart()
         self.__SetEditFile()
     def copyCurrentString(self):
         # if NumString is None:
@@ -161,20 +162,16 @@ class Data:
         self.__buffer = self.__string[NumString].c_str()
     def copyWordUnderCursor(self):
         len = self.__string[self.__posCursor['y']].find(" ", self.__posCursor['x'])
-        # if len == -1:
-        #     len = self.getLenString()
         len = len - self.__posCursor['x']
         self.__buffer = self.__string[self.__posCursor['y']].substr(self.__posCursor['x'], len)
     def pasteAfterCursor(self):
         NumString = self.__posCursor['y']
         index = self.__posCursor['x']
         self.__string[NumString].insert(index, self.__buffer)
-
         self.__SetEditFile()
     def deleteCurrentString(self):
         self.__string[self.__posCursor['y']].clear()
         self.moveCursorToStringStart()
-
         self.__SetEditFile()
 
     # For insert mode
