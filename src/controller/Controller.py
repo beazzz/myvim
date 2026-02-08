@@ -11,4 +11,4 @@ class ClientController(Controller):
         self.ChangeState("Normal")
 
     def draw(self):
-        self._view.draw(self._model.getString())
+        self._view.draw(self._model.getString(), self._model.getPosCursor())

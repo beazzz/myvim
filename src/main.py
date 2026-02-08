@@ -3,7 +3,8 @@ import curses
 
 def main():
     control = ClientController("test.txt")
-    control.draw()
+    while True:
+        control.draw()
     # print()
     # control.handleInput("g")
     # print()

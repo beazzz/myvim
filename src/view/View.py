@@ -6,12 +6,13 @@ class View():
         # print("Create View", self)
         self.__canvas = canvas
 
-    def draw(self, strings : list):
+    def draw(self, strings : list, cursorPos):
         # print(string)
         i = 0
         for string in strings:
             self.__canvas.addstr(i, 0, string.c_str())
             i += 1
+
+        self.__canvas.move(cursorPos['y'], cursorPos['x'])
             
         self.__canvas.refresh()
-        curses.napms(3000)
