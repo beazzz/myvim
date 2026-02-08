@@ -9,9 +9,13 @@ def main():
     control.handleInput("g")
 
     print()
-    control.handleInput("g")
+    control.handleInput("3")
     print()
-    control.handleInput("g")
+    control.handleInput("G")
+    # a = ""
+    # a += "3"
+    # a += "5"
+    # print([int(a)])
 
 if __name__ == '__main__':
     main()

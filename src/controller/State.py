@@ -50,6 +50,8 @@ class NormalState(ObserverState):
     def handleInput(self, ch: str) -> bool:
         print("handleInput", ch, "from", self)
         if ch.isdigit() and  not self.__CommandName:
+            if not self.__num:
+                self.__CommandName+= 'N' # for detect number before command
             self.__num += ch
         else:
             self.__CommandName+= ch
@@ -63,12 +65,13 @@ class NormalState(ObserverState):
             self.__num = ""
             return False
         
+        if self.__num:
+            status = command.execute(int(self.__num))
+        else:
+            status = command.execute()
         self.__CommandName = ""
         self.__num = ""
-        try:
-            return command.execute([int(self.__num)])
-        except ValueError:
-            return command.execute([0])
+        return status
 
         
 class InsertState(ObserverState):
@@ -82,6 +85,10 @@ class InsertState(ObserverState):
         # self.addCommand("A", Command.insertTextInEndString(self._model))
         # self.addCommand("S", Command.deleteStringToInsert(self._model))
         # self.addCommand("r", Command.replaceSymbolUnderCursor(self._model))
+        self.__CommandName = "i"
+    def handleInput(self, ch) -> bool:
+        command = self._commands.get(self.__CommandName)
+        return command.execute(ch)
 
 class SearchState(ObserverState):
     """
