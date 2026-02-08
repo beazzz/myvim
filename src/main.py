@@ -2,16 +2,17 @@ from controller.Controller import ClientController
 import curses
 
 def main():
-    control = ClientController()
-    print()
-    control.handleInput("g")
-    print()
-    control.handleInput("g")
+    control = ClientController("test.txt")
+    control.draw()
+    # print()
+    # control.handleInput("g")
+    # print()
+    # control.handleInput("g")
 
-    print()
-    control.handleInput("3")
-    print()
-    control.handleInput("G")
+    # print()
+    # control.handleInput("3")
+    # print()
+    # control.handleInput("G")
     # a = ""
     # a += "3"
     # a += "5"

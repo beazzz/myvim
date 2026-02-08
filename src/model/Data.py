@@ -23,12 +23,6 @@ class Data:
         self.__editStatus = False
     def __str__(self):
         return "\n".join(string.c_str() for string in self.__string)
-    
-    # def handleInput(self, commandName : str, *args):
-    #     print("Data handle command", commandName)
-    #     return self.__state.handleInput(commandName, *args)
-    # def AddState(self, stateName: str, state : 'State'):
-    #     self.__states[stateName] = state
 
     def SetPosCursor(self, dictOfCoord : dict):
         self.__posCursor = dictOfCoord
@@ -55,7 +49,7 @@ class Data:
             self.__posCursor['x'] = 0
 
         self.__posCursor['x_save'] = self.__posCursor['x']
-        print("right completed")
+        # print("right completed")
     def moveCursorLeft(self, value : int):
         self.__posCursor['x'] -= value
 
@@ -68,7 +62,7 @@ class Data:
                 self.__posCursor['x'] = self.getLenString()
 
         self.__posCursor['x_save'] = self.__posCursor['x']
-        print("left completed")
+        # print("left completed")
 
     def moveCursorUp(self, value: int):
         self.__posCursor['y'] -= value

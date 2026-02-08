@@ -17,14 +17,14 @@ class Controller:
             print("State is incorrect")
             return
         self._state = state
-        print("ChangeState:", stateName, self)
+        # print("ChangeState:", stateName, self)
 
     def AddState(self, stateName: str, state : 'State'):
-        print("AddState:", stateName, self)
+        # print("AddState:", stateName, self)
         self._states[stateName] = state
 
     def handleInput(self, ch : str):
-        print("handleInput", ch, self)
+        # print("handleInput", ch, self)
         return self._state.handleInput(ch)
 
     def execute(self):
@@ -41,7 +41,7 @@ class Command:
         self._editor = editor
 
     def execute(self, *args) -> bool:
-        print("Command: ", self)
+        # print("Command: ", self)
         return False
     
 class State:
