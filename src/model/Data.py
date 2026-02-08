@@ -8,13 +8,13 @@ class Data:
     There are data for vim. 
     For Command is Receiver, For State is Context
     """
-    def __init__(self, url = None):
+    def __init__(self, view: View ,url = None):
         # contructor
         #print("Create", self)
         self.__posCursor = {'x': 0,
                             'y': 0,
                             'x_save': 0}
-        self.__view = View()
+        self.__view = view
         self.open(url)
         # self.__states: dict[State] = {}
         # self.__state = State(self)

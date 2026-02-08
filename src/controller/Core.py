@@ -4,10 +4,11 @@ from model.Data import Data
 
 
 class Controller:
-    def __init__(self):
+    def __init__(self, url = None):
         self._canvas = curses.initscr()
         self._view = View(self._canvas)
-        self._state = State(self)
+        self._model = Data(self._view, url)
+        self._state = State(self, self._model)
         self._states = {}
 
     def ChangeState(self, stateName : str):
@@ -16,12 +17,15 @@ class Controller:
             print("State is incorrect")
             return
         self._state = state
+        print("ChangeState:", stateName, self)
 
     def AddState(self, stateName: str, state : 'State'):
+        print("AddState:", stateName, self)
         self._states[stateName] = state
 
-    def handleInput(self, commandName : str):
-        return self._state.handleInput(commandName)
+    def handleInput(self, ch : str):
+        print("handleInput", ch, self)
+        return self._state.handleInput(ch)
 
     def execute(self):
         pass
@@ -37,6 +41,7 @@ class Command:
         self._editor = editor
 
     def execute(self, *args) -> bool:
+        print("Command: ", self)
         return False
     
 class State:
@@ -44,30 +49,23 @@ class State:
     Parent for OtherState
     For Command is Invoker
     """
-    def __init__(self, context : Controller):
+    def __init__(self, context : Controller, model: Data):
         #print("Create State", self)
         self._commands: dict[Command] = {}
         self._context = context
+        self._model = model
     
     def handleInput(self, ch : str)-> bool:
         """
         Pass control to Command
         """
         return False
-        # commandName, args = self.ParsingInput(self, ch)
-
-        # #print("State handle command", commandName, self)
-        # command = self._commands.get(commandName, "")
-        # if command:
-        #     return command.execute(args)
-        # return False
         
-    def addCommmand(self, commandName : str, command: Command):
-        #print("State add command", commandName, self)
+    def addCommand(self, commandName : str, command: Command):
+        # print("State add command", commandName, self)
         self._commands[commandName] = command
         
     def ChangeState(self, stateName : str):
-        # print("State change state", stateName, self)
         self._context.ChangeState(stateName)
 
 

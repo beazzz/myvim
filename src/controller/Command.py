@@ -65,6 +65,7 @@ class moveCursorToLeftWordStart(Command):
         return self._editor.moveCursorToLeftWordStart()
 class moveCursorToFileStart(Command):
     def execute(self, *args: None)-> bool:
+        print("moveCursorToFileStart")
         return self._editor.moveCursorToFileStart()
 class moveCursorToFileEnd(Command):
     def execute(self, *args: None)-> bool:
@@ -75,6 +76,7 @@ class moveCursorToNstring(Command):
         :param args: only 1 is N - number of string
         :type args: int
         """
+        print("moveCursorToNstring")
         return self._editor.moveCursorToNstring(args[0])
 class moveScreenToUp(Command):
     def execute(self, *args: None)-> bool:

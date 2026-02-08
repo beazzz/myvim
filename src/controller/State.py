@@ -6,48 +6,49 @@ class ObserverState(State):
     Help to change state
     """
 
-    def __init__(self, context):
-        super().__init__(context)
-        self.addCommmand(":", Command.ChangeToStateCommand(self._context))
-        self.addCommmand("esc", Command.ChangeToStateNormal(self._context))
-        self.addCommmand("/", Command.ChangeToStateSearch(self._context))
-        self.addCommand("Error command", Command.ErrorCommand(self._context))
+    def __init__(self, context, model):
+        super().__init__(context, model)
+        self.addCommand(":", Command.ChangeToStateCommand(self._model))
+        self.addCommand("esc", Command.ChangeToStateNormal(self._model))
+        self.addCommand("/", Command.ChangeToStateSearch(self._model))
+        self.addCommand("Error command", Command.ErrorCommand(self._model))
 
-        self.addCommmand("i", Command.ChangeToStateInsert(self._context))
-        self.addCommmand("I", Command.ChangeToStateInsert(self._context))
-        self.addCommmand("A", Command.ChangeToStateInsert(self._context))
-        self.addCommmand("S", Command.ChangeToStateInsert(self._context))
-        self.addCommmand("r", Command.ChangeToStateInsert(self._context))
+        self.addCommand("i", Command.ChangeToStateInsert(self._model))
+        self.addCommand("I", Command.ChangeToStateInsert(self._model))
+        self.addCommand("A", Command.ChangeToStateInsert(self._model))
+        self.addCommand("S", Command.ChangeToStateInsert(self._model))
+        self.addCommand("r", Command.ChangeToStateInsert(self._model))
 
 class NormalState(ObserverState):
     """
     state for navigate and edit
     """
-    def __init__(self, context):
-        super().__init__(context)
-        self.addCommmand("right", Command.moveCursorRight(self._context))
-        self.addCommmand("left", Command.moveCursorLeft(self._context))
-        self.addCommmand("up", Command.moveCursorUp(self._context))
-        self.addCommmand("down", Command.moveCursorDown(self._context))
-        self.addCommmand("0", Command.moveCursorToStartString(self._context))
-        self.addCommmand("$", Command.moveCursorToEndString(self._context))
-        self.addCommmand("w", Command.moveCursorToRightWordEnd(self._context))
-        self.addCommmand("b", Command.moveCursorToLeftWordStart(self._context))
-        self.addCommmand("gg", Command.moveCursorToFileStart(self._context))
-        self.addCommmand("G", Command.moveCursorToFileEnd(self._context))
-        self.addCommmand("NG", Command.moveCursorToNstring(self._context))
-        self.addCommmand("PG_UP", Command.moveScreenToUp(self._context))
-        self.addCommmand("PG_DOWN", Command.moveScreenToDown(self._context))
-        self.addCommmand("x", Command.deleteSymbolAfterCursor(self._context))
-        self.addCommmand("diw", Command.deleteWordUnderCursor(self._context))
-        self.addCommmand("dd", Command.cutCurrentString(self._context))
-        self.addCommmand("yy", Command.copyCurrentString(self._context))
-        self.addCommmand("yw", Command.copyWordUnderCursor(self._context))
-        self.addCommmand("p", Command.pasteAfterCursor(self._context))
+    def __init__(self, context, model):
+        super().__init__(context, model)
+        self.addCommand("right", Command.moveCursorRight(self._model))
+        self.addCommand("left", Command.moveCursorLeft(self._model))
+        self.addCommand("up", Command.moveCursorUp(self._model))
+        self.addCommand("down", Command.moveCursorDown(self._model))
+        self.addCommand("0", Command.moveCursorToStartString(self._model))
+        self.addCommand("$", Command.moveCursorToEndString(self._model))
+        self.addCommand("w", Command.moveCursorToRightWordEnd(self._model))
+        self.addCommand("b", Command.moveCursorToLeftWordStart(self._model))
+        self.addCommand("gg", Command.moveCursorToFileStart(self._model))
+        self.addCommand("G", Command.moveCursorToFileEnd(self._model))
+        self.addCommand("NG", Command.moveCursorToNstring(self._model))
+        self.addCommand("PG_UP", Command.moveScreenToUp(self._model))
+        self.addCommand("PG_DOWN", Command.moveScreenToDown(self._model))
+        self.addCommand("x", Command.deleteSymbolAfterCursor(self._model))
+        self.addCommand("diw", Command.deleteWordUnderCursor(self._model))
+        self.addCommand("dd", Command.cutCurrentString(self._model))
+        self.addCommand("yy", Command.copyCurrentString(self._model))
+        self.addCommand("yw", Command.copyWordUnderCursor(self._model))
+        self.addCommand("p", Command.pasteAfterCursor(self._model))
 
         self.num = ""
         self.CommandName = ""
     def handleInput(self, ch: str) -> bool:
+        print("handleInput", ch, "from", self)
         if ch.isdigit() and  not self.CommandName:
             self.num += ch
         else:
@@ -61,43 +62,45 @@ class NormalState(ObserverState):
             self.CommandName = ""
             self.num = ""
             return False
-
-        return command.execute(int(self.num))
+        try:
+            return command.execute([int(self.num)])
+        except ValueError:
+            return command.execute([0])
 
         
 class InsertState(ObserverState):
     """
     State for insert text
     """
-    def __init__(self, context):
-        super().__init__(context)
-        # self.addCommmand("i", Command.insertText(self._context))
-        # self.addCommmand("I", Command.insertTextInStartString(self._context))
-        # self.addCommmand("A", Command.insertTextInEndString(self._context))
-        # self.addCommmand("S", Command.deleteStringToInsert(self._context))
-        # self.addCommmand("r", Command.replaceSymbolUnderCursor(self._context))
+    def __init__(self, context, model):
+        super().__init__(context, model)
+        # self.addCommand("i", Command.insertText(self._model))
+        # self.addCommand("I", Command.insertTextInStartString(self._model))
+        # self.addCommand("A", Command.insertTextInEndString(self._model))
+        # self.addCommand("S", Command.deleteStringToInsert(self._model))
+        # self.addCommand("r", Command.replaceSymbolUnderCursor(self._model))
 
 class SearchState(ObserverState):
     """
     State for search text
     """
-    def __init__(self, context):
-        super().__init__(context)
-        self.addCommmand("/text", Command.searchFromCursor(self._context))
-        #self.addCommmand("n", Command.research(self._context))
-        #self.addCommmand("N", Command.researchInvers(self._context))
+    def __init__(self, context, model):
+        super().__init__(context, model)
+        self.addCommand("/text", Command.searchFromCursor(self._model))
+        #self.addCommand("n", Command.research(self._model))
+        #self.addCommand("N", Command.researchInvers(self._model))
 
 class CommandState(ObserverState):
-    def __init__(self, context):
-        super().__init__(context)
-        self.addCommmand("o", Command.open(self._context))
-        self.addCommmand("x", Command.writeExit(self._context))
-        self.addCommmand("w", Command.write(self._context))
-        self.addCommmand("w filename", Command.writeFile(self._context))
-        self.addCommmand("q", Command.quitAfterSave(self._context))
-        self.addCommmand("q!", Command.quitWithoutSave(self._context))
-        self.addCommmand("wq!", Command.writeQuit(self._context))
-        self.addCommmand("number", Command.placeNstring(self._context))
-        self.addCommmand("set num", Command.TurnOnOffNumStrings(self._context))
-        self.addCommmand("h", Command.help(self._context))
+    def __init__(self, context, model):
+        super().__init__(context, model)
+        self.addCommand("o", Command.open(self._model))
+        self.addCommand("x", Command.writeExit(self._model))
+        self.addCommand("w", Command.write(self._model))
+        self.addCommand("w filename", Command.writeFile(self._model))
+        self.addCommand("q", Command.quitAfterSave(self._model))
+        self.addCommand("q!", Command.quitWithoutSave(self._model))
+        self.addCommand("wq!", Command.writeQuit(self._model))
+        self.addCommand("number", Command.placeNstring(self._model))
+        self.addCommand("set num", Command.TurnOnOffNumStrings(self._model))
+        self.addCommand("h", Command.help(self._model))
 

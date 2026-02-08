@@ -3,7 +3,10 @@ import curses
 
 def main():
     control = ClientController()
-    control.execute()
+    print()
+    control.handleInput("g")
+    print()
+    control.handleInput("g")
 
 if __name__ == '__main__':
     main()
