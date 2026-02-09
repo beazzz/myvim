@@ -11,6 +11,9 @@ class Controller:
         self._state = State(self, self._model)
         self._states = {}
 
+        self._canvas.keypad(True)
+        curses.noecho()
+
     def ChangeState(self, stateName : str, *args):
         state = self._states.get(stateName)
         if state is None:
@@ -31,12 +34,8 @@ class Controller:
         # print("handleInput", ch, self)
         return self._state.handleInput(ch)
     
-    def showHelp(self):
-        print("showHelp")
-        for key in self._states:
-            print("__________________",key,"__________________")
-            for command in self._states[key].getCommands():
-                print(command)
+    def close(self):
+        pass
 
     def execute(self):
         pass

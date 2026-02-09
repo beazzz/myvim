@@ -1,5 +1,6 @@
 from view.View import View
 from MyString import MyString
+import curses
 
 
 
@@ -21,6 +22,7 @@ class Data:
         self.__buffer = MyString()
         self.__url : str = None
         self.__editStatus = False
+        self.__statusClose = False
     def __str__(self):
         return "\n".join(string.c_str() for string in self.__string)
 
@@ -266,9 +268,9 @@ class Data:
            
         with open(url, "w", encoding="utf-8") as file:
             file.write(strings)
-    def quit(self, must = None):
-        if must is not None:
-            pass
+    def quit(self, must: bool = False):
+        if must:
+            self.__statusClose = True
         else:
             if (self.__editStatus() == False):
                 print("Exit File")
@@ -277,6 +279,9 @@ class Data:
     def writeQuit(self):
         self.writeFile()
         self.quit(True)
+
+    def isClose(self):
+        return self.__statusClose
         
     def __isStartString(self):
         """

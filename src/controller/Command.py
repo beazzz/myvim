@@ -171,10 +171,11 @@ class writeFile(Command):
         return self._editor.writeFile(args[0])
 class quitAfterSave(Command):
     def execute(self, *args)-> bool:
-        return quit()
+        return self._editor.quit(False)
 class quitWithoutSave(Command):
     def execute(self, *args)-> bool:
-        return quit()
+        print("quitWithoutSave")
+        return self._editor.quit(True)
 class writeQuit(Command):
     def execute(self, *args)-> bool:
         return self._editor.writeFile()

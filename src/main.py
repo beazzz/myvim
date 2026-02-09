@@ -11,11 +11,14 @@ def main():
     # print(canvas.getkey())
     # control.handleInput("\x1b")
     
-    while True:
-        print("draw")
+    done = False
+    while not done:
+        # print("draw")
         control.draw()
-        print("execute")
+        # print("execute")
         control.execute()
+
+        done = control.close()
     
     # print(str(curses.KEY_UP))
 

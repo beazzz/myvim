@@ -1,5 +1,6 @@
 from .Core import Controller
 import controller.State as State
+import curses
 
 class ClientController(Controller):
     def __init__(self, url = None):
@@ -10,8 +11,6 @@ class ClientController(Controller):
         self.AddState("Command", State.CommandState(self, self._model))
         self.ChangeState("Normal")
 
-        self._canvas.keypad(True)
-
     def draw(self):
         # print(self._model.getPosCursor())
         strings = [string.c_str() for string in self._model.getString()]
@@ -21,7 +20,6 @@ class ClientController(Controller):
         strings = []
         print("showHelp")
         for key in self._states:
-            # print("__________________",key,"__________________")
             strings.append("__________________"+key+"__________________")
             # for command in self._states[key].getCommands():
             #     strings.append(command)
@@ -33,3 +31,10 @@ class ClientController(Controller):
     def execute(self):
         ch = self._canvas.getkey()
         self.handleInput(ch)
+
+    def close(self) -> bool:
+        status = self._model.isClose()
+        if status:
+            curses.endwin()
+        return status
+        
