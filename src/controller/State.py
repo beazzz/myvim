@@ -11,10 +11,10 @@ class ObserverState(State):
         self.addCommand(":", Command.ChangeToStateCommand(self._context))
         self.addCommand("\x1b", Command.ChangeToStateNormal(self._context))
 
-        # self.addCommand("/", Command.ChangeToStateSearch(self._context))
-        # self.addCommand("?", Command.ChangeToStateSearch(self._context))
-        # self.addCommand("n", Command.ChangeToStateSearch(self._context))
-        # self.addCommand("N", Command.ChangeToStateSearch(self._context))
+        self.addCommand("/", Command.ChangeToStateSearch(self._context))
+        self.addCommand("?", Command.ChangeToStateSearch(self._context))
+        self.addCommand("n", Command.ChangeToStateSearch(self._context))
+        self.addCommand("N", Command.ChangeToStateSearch(self._context))
         # self.addCommand("Error command", Command.ErrorCommand(self._context))
 
         self.addCommand("i", Command.ChangeToStateInsert(self._context))
@@ -142,10 +142,9 @@ class SearchState(ObserverState):
 
     def handleInput(self, ch):
         if ch == '\n': # enter
-            parts = self.__commandName.split() # !!!
-            if len(parts) >= 2: # Commands w/o filename
-                self.__arg = self.__commandName[1:]
-                self.__commandName =  self.__commandName[0]
+            print(self.__commandName)
+            self.__arg = self.__commandName[1:]
+            self.__commandName =  self.__commandName[0]
             command = self._commands.get(self.__commandName)
             if command: # Other commands
                 command.execute(self.__arg)
