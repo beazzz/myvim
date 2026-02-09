@@ -45,8 +45,12 @@ class NormalState(ObserverState):
         self.addCommand("yw", Command.copyWordUnderCursor(self._model))
         self.addCommand("p", Command.pasteAfterCursor(self._model))
 
+        self.__clear()
+
+    def __clear(self):
         self.__num = ""
         self.__CommandName = ""
+
     def handleInput(self, ch: str) -> bool:
         print("Normal State, handleInput", ch)
         # print("handleInput", ch, "from", self)
@@ -62,16 +66,14 @@ class NormalState(ObserverState):
             for key in self._commands.keys():
                 if self.__CommandName in key:
                     return False
-            self.__CommandName = ""
-            self.__num = ""
+            self.__clear()
             return False
         
         if self.__num:
             status = command.execute(int(self.__num))
         else:
             status = command.execute(ch)
-        self.__CommandName = ""
-        self.__num = ""
+        self.__clear()
         return status
 
         
@@ -86,13 +88,18 @@ class InsertState(ObserverState):
         self.addCommand("A", Command.insertTextInEndString(self._model))
         self.addCommand("S", Command.deleteStringToInsert(self._model))
         # self.addCommand("r", Command.replaceSymbolUnderCursor(self._model))
+
+        self.__clear()
+
+    def __clear(self):
         self.__commandName = ""
+
     def handleInput(self, ch) -> bool:
         print("InsertState: handleInput", ch)
         if self.__commandName:
             if ch == "\x1b": # is ESC?
                 command = self._commands.get(ch)
-                self.__commandName = ""
+                self.__clear()
                 return command.execute()
             
             command = self._commands.get(self.__commandName)
@@ -155,7 +162,6 @@ class CommandState(ObserverState):
             if command: # Other commands
                 command.execute(self.__arg)
             return self.__esc()
-        
         elif ch == '\x1b': # Command "esc"
             return self.__esc()
 

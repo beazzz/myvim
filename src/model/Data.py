@@ -145,8 +145,11 @@ class Data:
         incorrect find in MyString
         """
         len = self.__string[self.__posCursor['y']].find(" ", self.__posCursor['x'])
-        # if len == -1:
-        #     len = self.getLenString()
+        # print("!!!!!", len)
+        if len == -1:
+            len = self.getLenString()
+        else:
+            len+=1
         len = len - self.__posCursor['x']
         self.__string[self.__posCursor['y']].erase(self.__posCursor['x'], len)
 
