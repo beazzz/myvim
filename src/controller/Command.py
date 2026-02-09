@@ -13,7 +13,7 @@ class ChangeToStateInsert(Command):
 class ChangeToStateSearch(Command):
     def execute(self, *args)-> bool:
         print("ChangeToStateSearch")
-        return self._editor.ChangeState("Search")
+        return self._editor.ChangeState("Search", args[0])
 class ChangeToStateCommand(Command):
     def execute(self, *args)-> bool:
         print("ChangeToStateCommand")
