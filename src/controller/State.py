@@ -136,28 +136,31 @@ class CommandState(ObserverState):
     def __clear(self):
         self.__commandName = ""
         self.__arg = ""
+    def __esc(self):
+        self.__clear()
+        command = self._commands.get('\x1b')
+        return command.execute()
 
     def handleInput(self, ch):
-        if ch == '\n':
+        if ch == '\n': # enter
+            if self.__commandName.isdigit(): # Command "number"
+                command = self._commands.get("number")
+                command.execute(int(self.__commandName))
+                return self.__esc()
             parts = self.__commandName.split()
-            if len(parts) >= 2:
+            if len(parts) >= 2: # Commands w/o filename
                 self.__commandName = parts[0] + ' '
                 self.__arg = parts[1]
             command = self._commands.get(self.__commandName)
-            if command:
+            if command: # Other commands
                 command.execute(self.__arg)
-                self.__clear()
-                command = self._commands.get('\x1b')
-                status = command.execute(self.__arg)
-                return status
-            
-            self.__clear()
-            return False
-        elif ch == '\x1b':
-            self.__clear()
-            command = self._commands.get(ch)
-            return command.execute()
+            return self.__esc()
+        
+        elif ch == '\x1b': # Command "esc"
+            return self.__esc()
 
         self.__commandName += ch
+
+        return True
         
 
