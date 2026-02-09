@@ -148,6 +148,7 @@ class SearchState(ObserverState):
             command = self._commands.get(self.__commandName)
             if command: # Other commands
                 command.execute(self.__arg)
+                
             return self.__esc()
         elif ch == '\x1b': # Command "esc"
             return self.__esc()

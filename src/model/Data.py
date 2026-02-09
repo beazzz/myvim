@@ -32,7 +32,7 @@ class Data:
     def getString(self):
         return self.__string
     def getPosCursor(self):
-        return self.__posCursor
+        return dict(self.__posCursor)
     def getSymbol(self):
         return self.__string[self.__posCursor['y']][self.__posCursor['x']]
     def getRaw(self):
@@ -243,6 +243,7 @@ class Data:
             index = self.__string[self.__posCursor['y']].find(text)
 
         if index < 0:
+            print("!!!!!", cursor)
             self.SetPosCursor(cursor)
         else:
             self.moveCursorRight(index + self.__posCursor['x'])
@@ -256,6 +257,33 @@ class Data:
         :return: None
         :rtype: -
         """
+        print("searchFromCursorToStartFile", "str =", text)
+        cursor = self.getPosCursor()
+        mystring = self.__string[self.__posCursor['y']].substr(0, self.__posCursor['x'])
+        str = mystring.c_str()
+        text = text[::-1]
+        str = str[::-1]
+
+        mystring.clear()
+        mystring.shrink_to_fit()
+        mystring.append(str)
+        
+        print(mystring.c_str())
+        index = mystring.find(text)
+        print(index, text)
+        if index > -1:
+            self.moveCursorLeft(index + len(text))
+            return True
+        
+        while index < 0 and not self.__isStartFile():
+            self.moveCursorToStringStart()
+            self.moveCursorLeft(1)
+            index = self.__string[self.__posCursor['y']].find(text)
+
+        if index < 0:
+            self.SetPosCursor(cursor)
+        else:
+            self.moveCursorRight(index + len(text))
 
         
     
@@ -318,6 +346,9 @@ class Data:
         """
         cursor = self.getPosCursor()
         return cursor['x'] >= self.getLenString() and cursor['y'] == self.getCountOfColumn()-1
+    
+    def __isStartFile(self):
+        return self.__posCursor['x'] == 0 and self.__posCursor['y'] == 0
     def __doCorrectCursor(self):
         """
         observing Cursor's coord after up and down command
