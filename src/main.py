@@ -5,7 +5,7 @@ def main():
     control = ClientController("test.txt")
     # canvas = curses.initscr()
     # canvas.keypad(True)
-    # print(int(canvas.getch()))
+    # print(int(canvas.getkey()))
     # print('\n' == canvas.getkey())
     # print(canvas.getkey())
     # print(canvas.getkey())

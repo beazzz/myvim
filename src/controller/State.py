@@ -80,7 +80,6 @@ class NormalState(ObserverState):
         self.__clear()
         return status
 
-        
 class InsertState(ObserverState):
     """
     State for insert text
@@ -91,6 +90,7 @@ class InsertState(ObserverState):
         self.addCommand("I", Command.insertTextInStartString(self._model))
         self.addCommand("A", Command.insertTextInEndString(self._model))
         self.addCommand("S", Command.deleteStringToInsert(self._model))
+        self.addCommand("\x08", Command.deleteSymbolAfterCursor(self._model))
         # self.addCommand("r", Command.replaceSymbolUnderCursor(self._model))
 
         self.__clear()
@@ -105,6 +105,9 @@ class InsertState(ObserverState):
                 command = self._commands.get(ch)
                 self.__clear()
                 return command.execute()
+            if ch == "\x08": # BackSpace
+                command = self._commands.get(ch)
+                return command.execute()
             
             command = self._commands.get(self.__commandName)
             return command.execute(ch)
@@ -116,7 +119,6 @@ class InsertState(ObserverState):
                     return command.execute()
                 return True
             return False
-
 
 class SearchState(ObserverState):
     """

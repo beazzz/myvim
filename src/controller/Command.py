@@ -188,7 +188,7 @@ class quitWithoutSave(Command):
         return self._editor.quit(True)
 class writeQuit(Command):
     def execute(self, *args)-> bool:
-        return self._editor.writeFile()
+        return self._editor.writeQuit()
 class placeNstring(Command):
     def execute(self, *args)-> bool:
         return self._editor.moveCursorToNstring(args[0])

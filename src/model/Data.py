@@ -20,7 +20,7 @@ class Data:
         # self.__states: dict[State] = {}
         # self.__state = State(self)
         self.__buffer = MyString()
-        self.__url : str = None
+        self.__url = url
         self.__editStatus = False
         self.__statusClose = False
     def __str__(self):
@@ -145,7 +145,6 @@ class Data:
         incorrect find in MyString
         """
         len = self.__string[self.__posCursor['y']].find(" ", self.__posCursor['x'])
-        # print("!!!!!", len)
         if len == -1:
             len = self.getLenString()
         else:
@@ -162,7 +161,6 @@ class Data:
         self.moveCursorToStringStart()
         self.__SetEditFile()
     def copyCurrentString(self):
-        # if NumString is None:
         NumString = self.__posCursor['y']
         self.__buffer = self.__string[NumString].c_str()
     def copyWordUnderCursor(self):
@@ -219,7 +217,7 @@ class Data:
         self.deleteSymbolAfterCursor()
         self.insertText(symbol)
 
-    # fixk pybind
+    # For Search
     def searchFromCursorToEndFile(self, text: str):
         """
         Docstring for searchFromCursorToEndFile
@@ -250,7 +248,6 @@ class Data:
             self.SetPosCursor(cursor)
         else:
             self.moveCursorRight(index + self.__posCursor['x'])
-
     def searchFromCursorToStartFile(self, text: str):
         """
         Docstring for searchFromCursorToStartFile
@@ -289,15 +286,11 @@ class Data:
             self.SetPosCursor(cursor)
         else:
             self.moveCursorLeft(index + len(text))
-
     def research(self, text: str):
         self.searchFromCursorToEndFile(text)
     def researchInvers(self, text: str):
         self.searchFromCursorToStartFile(text)
 
-
-        
-    
     # For Command state
     def open(self, url : str):
         if url is not None:
@@ -357,7 +350,6 @@ class Data:
         """
         cursor = self.getPosCursor()
         return cursor['x'] >= self.getLenString() and cursor['y'] == self.getCountOfColumn()-1
-    
     def __isStartFile(self):
         return self.__posCursor['x'] == 0 and self.__posCursor['y'] == 0
     def __doCorrectCursor(self):
