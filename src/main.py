@@ -3,10 +3,10 @@ import curses
 
 def main():
     control = ClientController("test.txt")
-    canvas = curses.initscr()
-    canvas.keypad(True)
+    # canvas = curses.initscr()
+    # canvas.keypad(True)
     # print(int(canvas.getkey()))
-    # print(canvas.getkey())
+    # print('\n' == canvas.getkey())
     # print(canvas.getkey())
     # print(canvas.getkey())
     # control.handleInput("\x1b")

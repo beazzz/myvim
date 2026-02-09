@@ -30,11 +30,18 @@ class Controller:
     def handleInput(self, ch : str):
         # print("handleInput", ch, self)
         return self._state.handleInput(ch)
+    
+    def showHelp(self):
+        print("showHelp")
+        for key in self._states:
+            print("__________________",key,"__________________")
+            for command in self._states[key].getCommands():
+                print(command)
 
     def execute(self):
         pass
         
-    def _draw():
+    def draw():
         pass
 
 class Command:
@@ -71,6 +78,9 @@ class State:
         
     def ChangeState(self, stateName : str):
         self._context.ChangeState(stateName)
+
+    def getCommands(self):
+        return self._commands
 
 
 

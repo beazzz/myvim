@@ -17,7 +17,7 @@ class ObserverState(State):
         self.addCommand("I", Command.ChangeToStateInsert(self._context))
         self.addCommand("A", Command.ChangeToStateInsert(self._context))
         self.addCommand("S", Command.ChangeToStateInsert(self._context))
-        self.addCommand("r", Command.ChangeToStateInsert(self._context))
+        # self.addCommand("r", Command.ChangeToStateInsert(self._context))
 
 class NormalState(ObserverState):
     """
@@ -84,7 +84,7 @@ class InsertState(ObserverState):
         self.addCommand("I", Command.insertTextInStartString(self._model))
         self.addCommand("A", Command.insertTextInEndString(self._model))
         self.addCommand("S", Command.deleteStringToInsert(self._model))
-        self.addCommand("r", Command.replaceSymbolUnderCursor(self._model))
+        # self.addCommand("r", Command.replaceSymbolUnderCursor(self._model))
         self.__commandName = ""
     def handleInput(self, ch) -> bool:
         print("InsertState: handleInput", ch)
@@ -117,14 +117,31 @@ class SearchState(ObserverState):
 class CommandState(ObserverState):
     def __init__(self, context, model):
         super().__init__(context, model)
-        self.addCommand("o", Command.open(self._model))
+        self.addCommand("o ", Command.open(self._model))
         self.addCommand("x", Command.writeExit(self._model))
         self.addCommand("w", Command.write(self._model))
-        self.addCommand("w filename", Command.writeFile(self._model))
+        self.addCommand("w ", Command.writeFile(self._model))
         self.addCommand("q", Command.quitAfterSave(self._model))
         self.addCommand("q!", Command.quitWithoutSave(self._model))
         self.addCommand("wq!", Command.writeQuit(self._model))
         self.addCommand("number", Command.placeNstring(self._model))
         self.addCommand("set num", Command.TurnOnOffNumStrings(self._model))
-        self.addCommand("h", Command.help(self._model))
+        self.addCommand("h", Command.help(self._context))
+        
+        self.__commandName = ""
+        self.__arg = ""
+
+    def handleInput(self, ch):
+        if ch == '\n':
+            parts = self.__commandName.split()
+            if len(parts) >= 2:
+                self.__commandName = parts[0] + ' '
+                self.__arg = parts[1]
+            command = self._commands.get(self.__commandName)
+            status = command.execute(self.__arg)
+            self.__commandName = ""
+            self.__arg = ""
+            return status
+        self.__commandName += ch
+        
 

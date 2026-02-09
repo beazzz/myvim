@@ -277,9 +277,7 @@ class Data:
     def writeQuit(self):
         self.writeFile()
         self.quit(True)
-    def showHelp(self):
-        for command in self.__state._commands:
-            print(command)
+        
     def __isStartString(self):
         """
         return true if it is start

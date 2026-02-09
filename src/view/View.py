@@ -11,7 +11,7 @@ class View():
         # print(string)
         i = 0
         for string in strings:
-            self.__canvas.addstr(i, 0, string.c_str())
+            self.__canvas.addstr(i, 0, string)
             i += 1
 
         self.__canvas.move(cursorPos['y'], cursorPos['x'])
