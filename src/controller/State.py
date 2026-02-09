@@ -48,6 +48,7 @@ class NormalState(ObserverState):
         self.__num = ""
         self.__CommandName = ""
     def handleInput(self, ch: str) -> bool:
+        print("Normal State, handleInput", ch)
         # print("handleInput", ch, "from", self)
         if  ch.isdigit() and  not self.__CommandName:
             if not self.__num:
@@ -130,6 +131,9 @@ class CommandState(ObserverState):
         self.addCommand("set num", Command.TurnOnOffNumStrings(self._model))
         self.addCommand("h", Command.help(self._context))
         
+        self.__clear()
+
+    def __clear(self):
         self.__commandName = ""
         self.__arg = ""
 
@@ -141,17 +145,16 @@ class CommandState(ObserverState):
                 self.__arg = parts[1]
             command = self._commands.get(self.__commandName)
             if command:
+                command.execute(self.__arg)
+                self.__clear()
+                command = self._commands.get('\x1b')
                 status = command.execute(self.__arg)
-                self.__commandName = ""
-                self.__arg = ""
                 return status
             
-            self.__commandName = ""
-            self.__arg = ""
+            self.__clear()
             return False
         elif ch == '\x1b':
-            self.__commandName = ""
-            self.__arg = ""
+            self.__clear()
             command = self._commands.get(ch)
             return command.execute()
 

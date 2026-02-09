@@ -24,7 +24,7 @@ class Controller:
         if len(args) > 0:
             print(args[0])
             self.handleInput(args[0])
-        # print("ChangeState:", stateName, self)
+        print("ChangeState:", stateName, self)
 
     def AddState(self, stateName: str, state : 'State'):
         # print("AddState:", stateName, self)
@@ -51,6 +51,7 @@ class Command:
         self._editor = editor
 
     def execute(self, *args) -> bool:
+        print("command = ", self)
         # print("Command: ", self)
         return False
     
