@@ -16,7 +16,7 @@ class ChangeToStateSearch(Command):
         return self._editor.ChangeState("Search")
 class ChangeToStateCommand(Command):
     def execute(self, *args)-> bool:
-        print("ChangeToStateSearch")
+        print("ChangeToStateCommand")
         return self._editor.ChangeState("Command")
 class ErrorCommand(Command):
     def execute(self, *args)-> bool:

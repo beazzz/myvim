@@ -10,7 +10,7 @@ class ObserverState(State):
         super().__init__(context, model)
         self.addCommand(":", Command.ChangeToStateCommand(self._context))
         self.addCommand("\x1b", Command.ChangeToStateNormal(self._context))
-        self.addCommand("/", Command.ChangeToStateSearch(self._context))
+        # self.addCommand("/", Command.ChangeToStateSearch(self._context))
         self.addCommand("Error command", Command.ErrorCommand(self._context))
 
         self.addCommand("i", Command.ChangeToStateInsert(self._context))
@@ -100,7 +100,9 @@ class InsertState(ObserverState):
             command = self._commands.get(ch)
             if command:
                 self.__commandName = 'i'
-                return command.execute()
+                if ch != 'i':
+                    return command.execute()
+                return True
             return False
 
 
@@ -138,10 +140,21 @@ class CommandState(ObserverState):
                 self.__commandName = parts[0] + ' '
                 self.__arg = parts[1]
             command = self._commands.get(self.__commandName)
-            status = command.execute(self.__arg)
+            if command:
+                status = command.execute(self.__arg)
+                self.__commandName = ""
+                self.__arg = ""
+                return status
+            
             self.__commandName = ""
             self.__arg = ""
-            return status
+            return False
+        elif ch == '\x1b':
+            self.__commandName = ""
+            self.__arg = ""
+            command = self._commands.get(ch)
+            return command.execute()
+
         self.__commandName += ch
         
 

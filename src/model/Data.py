@@ -268,17 +268,19 @@ class Data:
            
         with open(url, "w", encoding="utf-8") as file:
             file.write(strings)
+        self.__editStatus = False
     def quit(self, must: bool = False):
         if must:
             self.__statusClose = True
         else:
-            if (self.__editStatus() == False):
+            if (self.__editStatus == False):
                 print("Exit File")
-            else:
-                print("Cant exit. Use q!")
+                self.__statusClose = True
+            # else:
+            #     print("Cant exit. Use q!")
     def writeQuit(self):
         self.writeFile()
-        self.quit(True)
+        self.quit(False)
 
     def isClose(self):
         return self.__statusClose
