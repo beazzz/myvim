@@ -10,8 +10,12 @@ class ObserverState(State):
         super().__init__(context, model)
         self.addCommand(":", Command.ChangeToStateCommand(self._context))
         self.addCommand("\x1b", Command.ChangeToStateNormal(self._context))
-        # self.addCommand("/", Command.ChangeToStateSearch(self._context))
-        self.addCommand("Error command", Command.ErrorCommand(self._context))
+        
+        self.addCommand("/", Command.ChangeToStateSearch(self._context))
+        self.addCommand("?", Command.ChangeToStateSearch(self._context))
+        self.addCommand("n", Command.ChangeToStateSearch(self._context))
+        self.addCommand("N", Command.ChangeToStateSearch(self._context))
+        # self.addCommand("Error command", Command.ErrorCommand(self._context))
 
         self.addCommand("i", Command.ChangeToStateInsert(self._context))
         self.addCommand("I", Command.ChangeToStateInsert(self._context))
@@ -39,7 +43,7 @@ class NormalState(ObserverState):
         self.addCommand("KEY_A3", Command.moveScreenToUp(self._model)) # idk
         self.addCommand("KEY_C3", Command.moveScreenToDown(self._model)) # idk
         self.addCommand("x", Command.deleteSymbolAfterCursor(self._model))
-        self.addCommand("diw", Command.deleteWordUnderCursor(self._model)) # probel(need  fix MyString find)
+        self.addCommand("diw", Command.deleteWordUnderCursor(self._model))
         self.addCommand("dd", Command.cutCurrentString(self._model))
         self.addCommand("yy", Command.copyCurrentString(self._model))
         self.addCommand("yw", Command.copyWordUnderCursor(self._model))
@@ -120,7 +124,7 @@ class SearchState(ObserverState):
     """
     def __init__(self, context, model):
         super().__init__(context, model)
-        self.addCommand("/text", Command.searchFromCursor(self._model))
+        self.addCommand("/", Command.searchFromCursor(self._model))
         #self.addCommand("n", Command.research(self._model))
         #self.addCommand("N", Command.researchInvers(self._model))
 

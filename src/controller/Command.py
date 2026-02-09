@@ -134,12 +134,18 @@ class replaceSymbolUnderCursor(Command):
 """
 Search State
 """
-class searchFromCursor(Command):
+class searchFromCursorToEndFile(Command):
     """
     if find text Cursor will place in start text
     """
     def execute(self, *args)-> bool:
-        return self._editor.searchFromCursor(args[0])
+        return self._editor.searchFromCursorToEndFile(args[0])
+class searchFromCursorToStartFile(Command):
+    """
+    if find text Cursor will place in start text
+    """
+    def execute(self, *args)-> bool:
+        return self._editor.searchFromCursorToStartFile(args[0])
         
 class research(Command):
     """
