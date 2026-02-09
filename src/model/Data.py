@@ -229,22 +229,25 @@ class Data:
         :return: None
         :rtype: -
         """
+        print("searchFromCursorToEndFile", "str =", text)
         cursor = self.getPosCursor()
         string = self.__string[self.__posCursor['y']].substr(self.__posCursor['x'])
         index = string.find(text)
-        if index:
+        if index > -1:
             self.moveCursorRight(index + self.__posCursor['x'])
             return
         
-        while not index and not self.__isEndFile():
+        while index < 0 and not self.__isEndFile():
             self.moveCursorToStringEnd()
             self.moveCursorRight(1)
             index = self.__string[self.__posCursor['y']].find(text)
 
-        if index == False:
+        if index < 0:
             self.SetPosCursor(cursor)
+        else:
+            self.moveCursorRight(index + self.__posCursor['x'])
 
-    def c(self, text: str):
+    def searchFromCursorToStartFile(self, text: str):
         """
         Docstring for searchFromCursorToStartFile
      
