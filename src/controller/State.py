@@ -133,7 +133,6 @@ class SearchState(ObserverState):
 
     def __clear(self):
         self.__commandName = ""
-        self.__arg = ""
 
     def __esc(self):
         self.__clear()
@@ -143,12 +142,13 @@ class SearchState(ObserverState):
     def handleInput(self, ch):
         if ch == '\n': # enter
             print(self.__commandName)
-            self.__arg = self.__commandName[1:]
+            if (self.__commandName[0] == '/' or self.__commandName[0] == '?'):
+                self.__arg = self.__commandName[1:]
             self.__commandName =  self.__commandName[0]
             command = self._commands.get(self.__commandName)
             if command: # Other commands
                 command.execute(self.__arg)
-                
+
             return self.__esc()
         elif ch == '\x1b': # Command "esc"
             return self.__esc()

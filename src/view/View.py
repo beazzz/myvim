@@ -14,6 +14,7 @@ class View():
             self.__canvas.addstr(i, 0, string)
             i += 1
 
+
         self.__canvas.move(cursorPos['y'], cursorPos['x'])
             
         self.__canvas.refresh()

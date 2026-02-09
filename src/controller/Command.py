@@ -152,13 +152,17 @@ class research(Command):
     repeat search
     """
     def execute(self, *args)-> bool:
-        return False
+        print("researh")
+        self._editor.research(args[0])
+        return True
 class researchInvers(Command):
     """
     search on the contrary 
     """
     def execute(self, *args)-> bool:
-        return False
+        print("researchInvers")
+        self._editor.researchInvers(args[0])
+        return True
 
 """
 Command State
