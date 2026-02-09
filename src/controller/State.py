@@ -10,11 +10,11 @@ class ObserverState(State):
         super().__init__(context, model)
         self.addCommand(":", Command.ChangeToStateCommand(self._context))
         self.addCommand("\x1b", Command.ChangeToStateNormal(self._context))
-        
-        self.addCommand("/", Command.ChangeToStateSearch(self._context))
-        self.addCommand("?", Command.ChangeToStateSearch(self._context))
-        self.addCommand("n", Command.ChangeToStateSearch(self._context))
-        self.addCommand("N", Command.ChangeToStateSearch(self._context))
+
+        # self.addCommand("/", Command.ChangeToStateSearch(self._context))
+        # self.addCommand("?", Command.ChangeToStateSearch(self._context))
+        # self.addCommand("n", Command.ChangeToStateSearch(self._context))
+        # self.addCommand("N", Command.ChangeToStateSearch(self._context))
         # self.addCommand("Error command", Command.ErrorCommand(self._context))
 
         self.addCommand("i", Command.ChangeToStateInsert(self._context))
@@ -124,9 +124,38 @@ class SearchState(ObserverState):
     """
     def __init__(self, context, model):
         super().__init__(context, model)
-        self.addCommand("/", Command.searchFromCursor(self._model))
-        #self.addCommand("n", Command.research(self._model))
-        #self.addCommand("N", Command.researchInvers(self._model))
+        self.addCommand("/", Command.searchFromCursorToEndFile(self._model))
+        self.addCommand("?", Command.searchFromCursorToStartFile(self._model))
+        self.addCommand("n", Command.research(self._model))
+        self.addCommand("N", Command.researchInvers(self._model))
+
+        self.__clear()
+
+    def __clear(self):
+        self.__commandName = ""
+        self.__arg = ""
+
+    def __esc(self):
+        self.__clear()
+        command = self._commands.get('\x1b')
+        return command.execute()
+
+    def handleInput(self, ch):
+        if ch == '\n': # enter
+            parts = self.__commandName.split() # !!!
+            if len(parts) >= 2: # Commands w/o filename
+                self.__arg = self.__commandName[1:]
+                self.__commandName =  self.__commandName[0]
+            command = self._commands.get(self.__commandName)
+            if command: # Other commands
+                command.execute(self.__arg)
+            return self.__esc()
+        elif ch == '\x1b': # Command "esc"
+            return self.__esc()
+
+        self.__commandName += ch
+
+        return True
 
 class CommandState(ObserverState):
     def __init__(self, context, model):

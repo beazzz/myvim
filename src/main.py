@@ -2,7 +2,7 @@ from controller.Controller import ClientController
 import curses
 
 def main():
-    control = ClientController()
+    control = ClientController("test.txt")
     # canvas = curses.initscr()
     # canvas.keypad(True)
     # print(int(canvas.getch()))
