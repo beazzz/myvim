@@ -23,7 +23,6 @@ class View():
     def draw(self, strings : list[str]):
         self.__canvas.clear()
 
-        for string in strings:
-            self.__canvas.addstr(string + '\n')
-        
+        for i, string in enumerate(strings):
+            self.__canvas.addstr(i, 0, string)
         self.__canvas.refresh()
