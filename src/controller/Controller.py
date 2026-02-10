@@ -26,10 +26,10 @@ class ClientController(Controller):
 
         posCursor = {'x': 0, 'y':0}
         self._view.draw(strings, posCursor)
-        self._canvas.getkey()
+        self._view.getkey()
 
     def execute(self):
-        ch = self._canvas.getkey()
+        ch = self._view.getkey()
         self.handleInput(ch)
 
     def close(self) -> bool:

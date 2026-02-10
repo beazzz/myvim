@@ -1,18 +1,13 @@
-import curses
 from view.View import View
 from model.Data import Data
 
 
 class Controller:
     def __init__(self, url = None):
-        self._canvas = curses.initscr()
-        self._view = View(self._canvas)
+        self._view = View()
         self._model = Data(self._view, url)
         self._state = State(self, self._model)
         self._states = {}
-
-        self._canvas.keypad(True)
-        curses.noecho()
 
     def ChangeState(self, stateName : str, *args):
         state = self._states.get(stateName)
