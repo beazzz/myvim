@@ -126,7 +126,8 @@ class Data:
         self.__posCursor['x_save'] = self.__posCursor['x'] = self.getLenString()
     def moveCursorToNstring(self, N : int):
         if (N < 0 or N > self.getCountOfColumn()):
-            raise ValueError("N =",N," is not valid")
+            return
+            # raise ValueError("N =",N," is not valid")
         self.__posCursor['x_save'] = self.__posCursor['x'] = 0
         self.__posCursor['y'] = N-1
     def moveScreenToUp(self):

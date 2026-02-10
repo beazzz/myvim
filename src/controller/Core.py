@@ -60,6 +60,12 @@ class State:
         self._commands: dict[Command] = {}
         self._context = context
         self._model = model
+
+        self._commandName = ""
+        self._arg = ""
+        
+    def getArgs(self):
+        return self._commandName, self._arg
     
     def handleInput(self, ch : str)-> bool:
         """

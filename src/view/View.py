@@ -47,12 +47,23 @@ class View():
         for i in range(len(strings)):
             strings[i] = strings[i][x_min:x_min+x_max+1]
 
-        self.clear()
+        #self.clear()
         for i, string in enumerate(strings):
             self.__canvas.addstr(i, 0, string)
-        #self.__view.draw(strings)
+            # self.drawStringInPos(i, 0, string)
         
         tempPos['x'] -= x_min
         tempPos['y'] -= y_min
         self.moveCursor(tempPos)
-        self.refresh()
+        #self.refresh()
+    def drawStringInPos(self, y, x, string):
+        """
+        Docstring for drawStringInPos
+        
+        :param y: column
+        :param x: raw
+        :param string: string
+        """
+        y_cur,x_cur = self.__canvas.getyx()
+        self.__canvas.addstr(y, x, string)
+        self.__canvas.move(y_cur, x_cur)

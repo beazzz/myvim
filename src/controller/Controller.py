@@ -13,6 +13,10 @@ class ClientController(Controller):
 
     def draw(self):
         self._model.draw()
+        commandName, arg = self._state.getArgs()
+        y_max, x_max = self._view.getMaxXY()
+        self._view.drawStringInPos(y_max-1, 0, commandName+arg)
+
 
     def showHelp(self):
         strings = []

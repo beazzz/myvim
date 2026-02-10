@@ -23,6 +23,7 @@ class ObserverState(State):
         self.addCommand("S", Command.ChangeToStateInsert(self._context))
         # self.addCommand("r", Command.ChangeToStateInsert(self._context))
 
+
 class NormalState(ObserverState):
     """
     state for navigate and edit
@@ -39,7 +40,7 @@ class NormalState(ObserverState):
         self.addCommand("b", Command.moveCursorToLeftWordStart(self._model))
         self.addCommand("gg", Command.moveCursorToFileStart(self._model))
         self.addCommand("G", Command.moveCursorToFileEnd(self._model))
-        self.addCommand("numberG", Command.moveCursorToNstring(self._model))
+        self.addCommand(" G", Command.moveCursorToNstring(self._model))
         self.addCommand("x", Command.deleteSymbolAfterCursor(self._model))
         self.addCommand("diw", Command.deleteWordUnderCursor(self._model))
         self.addCommand("dd", Command.cutCurrentString(self._model))
@@ -50,29 +51,29 @@ class NormalState(ObserverState):
         self.__clear()
 
     def __clear(self):
-        self.__num = ""
-        self.__CommandName = ""
+        self._arg = ""
+        self._commandName = ""
 
     def handleInput(self, ch: str) -> bool:
-        # print("Normal State, handleInput", ch)
-        # print("handleInput", ch, "from", self)
-        if  ch.isdigit() and  not self.__CommandName:
-            if not self.__num:
-                self.__CommandName+= 'number' # for detect number before command
-            self.__num += ch
+        if  ch.isdigit() and  not self._commandName:
+            if not self._arg:
+                self._commandName+= ' ' # for detect number before command
+            self._arg += ch
+        elif ch.isdigit() and self._commandName == ' ':
+            self._arg += ch
         else:
-            self.__CommandName+= ch
+            self._commandName+= ch
 
-        command = self._commands.get(self.__CommandName)
+        command = self._commands.get(self._commandName)
         if not command:
             for key in self._commands.keys():
-                if self.__CommandName in key:
+                if self._commandName in key:
                     return False
             self.__clear()
             return False
         
-        if self.__num:
-            status = command.execute(int(self.__num))
+        if self._arg:
+            status = command.execute(int(self._arg))
         else:
             status = command.execute(ch)
         self.__clear()
@@ -94,11 +95,11 @@ class InsertState(ObserverState):
         self.__clear()
 
     def __clear(self):
-        self.__commandName = ""
+        self._commandName = ""
 
     def handleInput(self, ch) -> bool:
         # print("InsertState: handleInput", ch)
-        if self.__commandName:
+        if self._commandName:
             if ch == "\x1b": # is ESC?
                 command = self._commands.get(ch)
                 self.__clear()
@@ -107,12 +108,12 @@ class InsertState(ObserverState):
                 command = self._commands.get(ch)
                 return command.execute()
             
-            command = self._commands.get(self.__commandName)
+            command = self._commands.get(self._commandName)
             return command.execute(ch)
         else:
             command = self._commands.get(ch)
             if command:
-                self.__commandName = 'i'
+                self._commandName = 'i'
                 if ch != 'i':
                     return command.execute()
                 return True
@@ -132,7 +133,7 @@ class SearchState(ObserverState):
         self.__clear()
 
     def __clear(self):
-        self.__commandName = ""
+        self._commandName = ""
 
     def __esc(self):
         self.__clear()
@@ -141,19 +142,19 @@ class SearchState(ObserverState):
 
     def handleInput(self, ch):
         if ch == '\n': # enter
-            print(self.__commandName)
-            if (self.__commandName[0] == '/' or self.__commandName[0] == '?'):
-                self.__arg = self.__commandName[1:]
-            self.__commandName =  self.__commandName[0]
-            command = self._commands.get(self.__commandName)
+            print(self._commandName)
+            if (self._commandName[0] == '/' or self._commandName[0] == '?'):
+                self._arg = self._commandName[1:]
+            self._commandName =  self._commandName[0]
+            command = self._commands.get(self._commandName)
             if command: # Other commands
-                command.execute(self.__arg)
+                command.execute(self._arg)
 
             return self.__esc()
         elif ch == '\x1b': # Command "esc"
             return self.__esc()
 
-        self.__commandName += ch
+        self._commandName += ch
 
         return True
 
@@ -171,11 +172,12 @@ class CommandState(ObserverState):
         self.addCommand("set num", Command.TurnOnOffNumStrings(self._model))
         self.addCommand("h", Command.help(self._context))
         
-        self.__clear()
+        # self.__clear()
+        # self._commandName = ":"
 
     def __clear(self):
-        self.__commandName = ""
-        self.__arg = ""
+        self._commandName = ""
+        self._arg = ""
     def __esc(self):
         self.__clear()
         command = self._commands.get('\x1b')
@@ -183,22 +185,23 @@ class CommandState(ObserverState):
 
     def handleInput(self, ch):
         if ch == '\n': # enter
-            if self.__commandName.isdigit(): # Command "number"
+            self._commandName = self._commandName[1:]
+            if self._commandName.isdigit(): # Command "number"
                 command = self._commands.get("number")
-                command.execute(int(self.__commandName))
+                command.execute(int(self._commandName))
                 return self.__esc()
-            parts = self.__commandName.split()
+            parts = self._commandName.split()
             if len(parts) >= 2: # Commands w/o filename
-                self.__commandName = parts[0] + ' '
-                self.__arg = parts[1]
-            command = self._commands.get(self.__commandName)
+                self._commandName = parts[0] + ' '
+                self._arg = parts[1]
+            command = self._commands.get(self._commandName)
             if command: # Other commands
-                command.execute(self.__arg)
+                command.execute(self._arg)
             return self.__esc()
         elif ch == '\x1b': # Command "esc"
             return self.__esc()
 
-        self.__commandName += ch
+        self._commandName += ch
 
         return True
         
