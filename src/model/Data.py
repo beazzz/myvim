@@ -1,6 +1,5 @@
 from view.View import View
 from MyString import MyString
-import curses
 
 
 
