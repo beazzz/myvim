@@ -16,8 +16,6 @@ class Data:
                             'x_save': 0}
         self.__view = view
         self.open(url)
-        # self.__states: dict[State] = {}
-        # self.__state = State(self)
         self.__buffer = MyString()
         self.__url = url
         self.__editStatus = False
@@ -333,8 +331,13 @@ class Data:
     def draw(self):
         strings = [string.c_str() for string in self.getString()]
         self.__view.draw(strings, self.getPosCursor())
+    def close(self):
+        status = self.__isClose()
+        if status:
+            self.__view.endwin()
+        return status
 
-    def isClose(self):
+    def __isClose(self):
         return self.__statusClose
         
     def __isStartString(self):

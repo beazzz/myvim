@@ -6,7 +6,10 @@ class View():
         self.__canvas = curses.initscr()
         self.__canvas.keypad(True)
         curses.noecho()
-        #self.__canvas.scrollok(True)
+        #self.__canvas.scrollok(False)
+
+    def endwin(self):
+        curses.endwin()
 
     def getkey(self):
         return self.__canvas.getkey()
@@ -19,7 +22,7 @@ class View():
             y_win, x_win = self.__canvas.getmaxyx()
             if (y >= y_win):
                 break
-            self.__canvas.addstr(string + '\n')
+            self.__canvas.addstr(y, 0, string + '\n')
             y += 1
 
         self.__canvas.move(cursorPos['y'], cursorPos['x'])

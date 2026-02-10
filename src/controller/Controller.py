@@ -31,8 +31,6 @@ class ClientController(Controller):
         self.handleInput(ch)
 
     def close(self) -> bool:
-        status = self._model.isClose()
-        if status:
-            curses.endwin()
+        status = self._model.close()
         return status
         
