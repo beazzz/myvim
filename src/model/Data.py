@@ -333,7 +333,7 @@ class Data:
 
         y_max, x_max = self.__view.getMaxXY()
         y_max -= 2
-        print(y_max, x_max)
+        x_max -= 1
 
         tempPos = self.getPosCursor()
         y_cur, x_cur = tempPos['y'], tempPos['x']
