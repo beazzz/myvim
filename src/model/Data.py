@@ -330,8 +330,13 @@ class Data:
 
     def draw(self):
         strings = [string.c_str() for string in self.getString()]
+        y_max,x_max = self.__view.getMaxXY()
+        up = self.__posCursor['y'] - y_max
+        if up < 0:
+            up = 0
+        strings = strings[up:y_max + up] # y_max+ up
         self.__view.draw(strings)
-        self.__view.moveCursor(self.getPosCursor())
+        #self.__view.moveCursor(self.getPosCursor())
     def close(self):
         status = self.__isClose()
         if status:

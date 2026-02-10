@@ -23,12 +23,7 @@ class View():
     def draw(self, strings : list[str]):
         self.__canvas.clear()
 
-        y = 0
         for string in strings:
-            y_win, x_win = self.getMaxXY()
-            if (y >= y_win):
-                break
-            self.__canvas.addstr(y, 0, string)
-            y += 1
+            self.__canvas.addstr(string + '\n')
         
         self.__canvas.refresh()
