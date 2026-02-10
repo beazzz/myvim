@@ -20,12 +20,14 @@ class Data:
         self.__url = url
         self.__editStatus = False
         self.__statusClose = False
+        self._modeNum = 0
     def __str__(self):
         return "\n".join(string.c_str() for string in self.__string)
 
     def SetPosCursor(self, dictOfCoord : dict):
         self.__posCursor = dictOfCoord
-
+    def getModeNum(self):
+        return self._modeNum
     def getString(self):
         return self.__string
     def getPosCursor(self):
@@ -328,11 +330,13 @@ class Data:
     def writeQuit(self):
         self.writeFile()
         self.quit(False)
+    def TurnOnOffNumStrings(self):
+        self._modeNum ^= 1
 
     def draw(self):
         strings = [string.c_str() for string in self.getString()]
         self.__view.clear()
-        self.__view.draw(strings, self.getPosCursor())
+        self.__view.draw(strings, self.getPosCursor(), self.getModeNum())
         self.__view.refresh()
 
     def close(self):

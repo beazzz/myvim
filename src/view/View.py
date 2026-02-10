@@ -26,7 +26,7 @@ class View():
     def refresh(self):
         self.__canvas.refresh()
 
-    def draw(self, strings : list[str], tempPos):
+    def draw(self, strings : list[str], tempPos, modeNum):
 
         # for i, string in enumerate(strings):
         #     self.__canvas.addstr(i, 0, string)
@@ -48,11 +48,20 @@ class View():
             strings[i] = strings[i][x_min:x_min+x_max+1]
 
         #self.clear()
-        for i, string in enumerate(strings):
-            self.__canvas.addstr(i, 0, string)
+        nums = 0
+        if modeNum:
+            nums = len(str(len(strings))) # Size number
+            for i, string in enumerate(strings):
+                num = str(i+y_min)
+                num += ' '* (nums-len(num)) # Add space to make perfect nums
+                self.__canvas.addstr(i, 0, num + " | " + string)
+            nums = len(str(nums) + " | ") + 1
+        else:
+            for i, string in enumerate(strings):
+                self.__canvas.addstr(i, 0, string)
             # self.drawStringInPos(i, 0, string)
         
-        tempPos['x'] -= x_min
+        tempPos['x'] -= x_min - nums
         tempPos['y'] -= y_min
         self.moveCursor(tempPos)
         #self.refresh()

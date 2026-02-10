@@ -169,7 +169,7 @@ class CommandState(ObserverState):
         self.addCommand("q!", Command.quitWithoutSave(self._model))
         self.addCommand("wq!", Command.writeQuit(self._model))
         self.addCommand("number", Command.placeNstring(self._model))
-        self.addCommand("set num", Command.TurnOnOffNumStrings(self._model))
+        self.addCommand("set", Command.TurnOnOffNumStrings(self._model))
         self.addCommand("h", Command.help(self._context))
         
         # self.__clear()
@@ -195,6 +195,7 @@ class CommandState(ObserverState):
                 self._commandName = parts[0] + ' '
                 self._arg = parts[1]
             command = self._commands.get(self._commandName)
+            print(self._commandName, self._arg)
             if command: # Other commands
                 command.execute(self._arg)
             return self.__esc()
