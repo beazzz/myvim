@@ -22,7 +22,7 @@ class View():
             y_win, x_win = self.__canvas.getmaxyx()
             if (y >= y_win):
                 break
-            self.__canvas.addstr(y, 0, string + '\n')
+            self.__canvas.addstr(y, 0, string)
             y += 1
 
         self.__canvas.move(cursorPos['y'], cursorPos['x'])
