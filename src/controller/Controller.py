@@ -23,11 +23,8 @@ class ClientController(Controller):
             #     strings.append(command)
 
         posCursor = {'x': 0, 'y':0}
-        # self._view.clear()
-        # self._view.draw(strings)
-        # self._view.moveCursor(posCursor)
-        # self._view.refresh()
-        # self._view.getkey()
+        self._view.draw(strings, posCursor)
+        self._view.getkey()
 
     def execute(self):
         ch = self._view.getkey()
