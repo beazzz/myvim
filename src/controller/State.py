@@ -39,9 +39,7 @@ class NormalState(ObserverState):
         self.addCommand("b", Command.moveCursorToLeftWordStart(self._model))
         self.addCommand("gg", Command.moveCursorToFileStart(self._model))
         self.addCommand("G", Command.moveCursorToFileEnd(self._model))
-        self.addCommand("NG", Command.moveCursorToNstring(self._model))
-        self.addCommand("KEY_A3", Command.moveScreenToUp(self._model)) # idk
-        self.addCommand("KEY_C3", Command.moveScreenToDown(self._model)) # idk
+        self.addCommand("numberG", Command.moveCursorToNstring(self._model))
         self.addCommand("x", Command.deleteSymbolAfterCursor(self._model))
         self.addCommand("diw", Command.deleteWordUnderCursor(self._model))
         self.addCommand("dd", Command.cutCurrentString(self._model))
@@ -56,16 +54,16 @@ class NormalState(ObserverState):
         self.__CommandName = ""
 
     def handleInput(self, ch: str) -> bool:
-        print("Normal State, handleInput", ch)
+        # print("Normal State, handleInput", ch)
         # print("handleInput", ch, "from", self)
         if  ch.isdigit() and  not self.__CommandName:
             if not self.__num:
-                self.__CommandName+= 'N' # for detect number before command
+                self.__CommandName+= 'number' # for detect number before command
             self.__num += ch
         else:
             self.__CommandName+= ch
 
-        command = self._commands.get(self.__CommandName, "")
+        command = self._commands.get(self.__CommandName)
         if not command:
             for key in self._commands.keys():
                 if self.__CommandName in key:
@@ -99,7 +97,7 @@ class InsertState(ObserverState):
         self.__commandName = ""
 
     def handleInput(self, ch) -> bool:
-        print("InsertState: handleInput", ch)
+        # print("InsertState: handleInput", ch)
         if self.__commandName:
             if ch == "\x1b": # is ESC?
                 command = self._commands.get(ch)
