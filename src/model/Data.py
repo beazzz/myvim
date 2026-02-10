@@ -330,29 +330,30 @@ class Data:
 
     def draw(self):
         strings = [string.c_str() for string in self.getString()]
+        self.__view.draw(strings, self.getPosCursor())
 
-        y_max, x_max = self.__view.getMaxXY()
-        y_max -= 2
-        x_max -= 1
+        # y_max, x_max = self.__view.getMaxXY()
+        # y_max -= 2
+        # x_max -= 1
 
-        tempPos = self.getPosCursor()
-        y_cur, x_cur = tempPos['y'], tempPos['x']
+        # tempPos = self.getPosCursor()
+        # y_cur, x_cur = tempPos['y'], tempPos['x']
 
-        y_min = y_cur - y_max
-        x_min = x_cur - x_max
-        if y_min < 0: y_min = 0
-        if x_min < 0: x_min = 0
+        # y_min = y_cur - y_max
+        # x_min = x_cur - x_max
+        # if y_min < 0: y_min = 0
+        # if x_min < 0: x_min = 0
 
-        strings = strings[y_min:y_min+y_max+1]
-        for i in range(len(strings)):
-            strings[i] = strings[i][x_min:x_min+x_max+1]
-        self.__view.clear()
-        self.__view.draw(strings)
+        # strings = strings[y_min:y_min+y_max+1]
+        # for i in range(len(strings)):
+        #     strings[i] = strings[i][x_min:x_min+x_max+1]
+        # self.__view.clear()
+        # self.__view.draw(strings)
         
-        tempPos['x'] -= x_min
-        tempPos['y'] -= y_min
-        self.__view.moveCursor(tempPos)
-        self.__view.refresh()
+        # tempPos['x'] -= x_min
+        # tempPos['y'] -= y_min
+        # self.__view.moveCursor(tempPos)
+        # self.__view.refresh()
 
     def close(self):
         status = self.__isClose()
