@@ -330,7 +330,8 @@ class Data:
 
     def draw(self):
         strings = [string.c_str() for string in self.getString()]
-        self.__view.draw(strings, self.getPosCursor())
+        self.__view.draw(strings)
+        self.__view.moveCursor(self.getPosCursor())
     def close(self):
         status = self.__isClose()
         if status:
