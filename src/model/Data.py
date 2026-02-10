@@ -339,14 +339,17 @@ class Data:
         y_cur, x_cur = tempPos['y'], tempPos['x']
 
         y_min = y_cur - y_max
-        if y_min < 0:
-            y_min = 0
+        x_min = x_cur - x_max
+        if y_min < 0: y_min = 0
+        if x_min < 0: x_min = 0
 
         strings = strings[y_min:y_min+y_max+1]
+        for i in range(len(strings)):
+            strings[i] = strings[i][x_min:x_min+x_max+1]
         self.__view.clear()
         self.__view.draw(strings)
         
-        #tempPos['x'] -= y_min -1
+        tempPos['x'] -= x_min
         tempPos['y'] -= y_min
         self.__view.moveCursor(tempPos)
         self.__view.refresh()
