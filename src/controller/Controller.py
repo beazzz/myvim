@@ -12,9 +12,7 @@ class ClientController(Controller):
         self.ChangeState("Normal")
 
     def draw(self):
-        # print(self._model.getPosCursor())
-        strings = [string.c_str() for string in self._model.getString()]
-        self._view.draw(strings, self._model.getPosCursor())
+        self._model.draw()
 
     def showHelp(self):
         strings = []

@@ -331,6 +331,10 @@ class Data:
         self.writeFile()
         self.quit(False)
 
+    def draw(self):
+        strings = [string.c_str() for string in self.getString()]
+        self.__view.draw(strings, self.getPosCursor())
+
     def isClose(self):
         return self.__statusClose
         
