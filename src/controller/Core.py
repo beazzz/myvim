@@ -22,11 +22,9 @@ class Controller:
         print("ChangeState:", stateName, self)
 
     def AddState(self, stateName: str, state : 'State'):
-        # print("AddState:", stateName, self)
         self._states[stateName] = state
 
     def handleInput(self, ch : str):
-        # print("handleInput", ch, self)
         return self._state.handleInput(ch)
     
     def close(self):
@@ -46,8 +44,6 @@ class Command:
         self._editor = editor
 
     def execute(self, *args) -> bool:
-        print("command = ", self)
-        # print("Command: ", self)
         return False
     
 class State:
@@ -74,7 +70,6 @@ class State:
         return False
         
     def addCommand(self, commandName : str, command: Command):
-        # print("State add command", commandName, self)
         self._commands[commandName] = command
         
     def ChangeState(self, stateName : str):

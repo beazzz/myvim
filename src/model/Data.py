@@ -9,8 +9,6 @@ class Data:
     For Command is Receiver, For State is Context
     """
     def __init__(self, view: View ,url = None):
-        # contructor
-        #print("Create", self)
         self.__posCursor = {'x': 0,
                             'y': 0,
                             'x_save': 0}
@@ -52,7 +50,6 @@ class Data:
             self.__posCursor['x'] = 0
 
         self.__posCursor['x_save'] = self.__posCursor['x']
-        # print("right completed")
     def moveCursorLeft(self, value : int):
         self.__posCursor['x'] -= value
 
@@ -65,7 +62,6 @@ class Data:
                 self.__posCursor['x'] = self.getLenString()
 
         self.__posCursor['x_save'] = self.__posCursor['x']
-        # print("left completed")
 
     def moveCursorUp(self, value: int):
         self.__posCursor['y'] -= value
@@ -129,7 +125,6 @@ class Data:
     def moveCursorToNstring(self, N : int):
         if (N < 0 or N > self.getCountOfColumn()):
             return
-            # raise ValueError("N =",N," is not valid")
         self.__posCursor['x_save'] = self.__posCursor['x'] = 0
         self.__posCursor['y'] = N-1
     def moveScreenToUp(self):
@@ -190,7 +185,6 @@ class Data:
         Go to start string and insert text
         """
         self.moveCursorToStringStart()
-        # self.insertText(text)
     def insertTextInEndString(self):
         """
         Docstring for insertTextInEndString
@@ -198,13 +192,11 @@ class Data:
         Go to string end and insert
         """
         self.moveCursorToStringEnd()
-        # self.insertText(text) 
     def deleteStringToInsert(self):
         """
         detete String and insert
         """
         self.deleteCurrentString()
-        # self.insertText(text)
     def replaceSymbolUnderCursor(self, symbol: str):
         """
         Docstring for replaceSymbolUnderCursor
@@ -298,9 +290,6 @@ class Data:
                 with open(url, 'r', encoding="utf-8") as file:
                     self.__string = [MyString(line.rstrip('\n')) for line in file.readlines()]
                     self.__url = url
-                # for string in self.__string:
-                #     print(string.c_str())
-                #self.printAllStrings()
                 
             except FileNotFoundError:
                 print("FileNotFound, please check correct path file!")
@@ -370,7 +359,7 @@ class Data:
         """
         observing Cursor's coord after up and down command
         """
-        end_string = self.getLenString()#len(self.getRaw())
+        end_string = self.getLenString()
         if self.__posCursor['x_save'] > end_string:
             self.__posCursor['x'] = end_string
         else:

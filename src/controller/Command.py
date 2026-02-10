@@ -194,7 +194,6 @@ class placeNstring(Command):
         return self._editor.moveCursorToNstring(args[0])
 class TurnOnOffNumStrings(Command):
     def execute(self, *args)-> bool:
-        print("!!!!!TurnOnOff")
         return self._editor.TurnOnOffNumStrings()
 class help(Command):
     def execute(self, *args)-> bool:

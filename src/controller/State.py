@@ -15,13 +15,11 @@ class ObserverState(State):
         self.addCommand("?", Command.ChangeToStateSearch(self._context))
         self.addCommand("n", Command.ChangeToStateSearch(self._context))
         self.addCommand("N", Command.ChangeToStateSearch(self._context))
-        # self.addCommand("Error command", Command.ErrorCommand(self._context))
 
         self.addCommand("i", Command.ChangeToStateInsert(self._context))
         self.addCommand("I", Command.ChangeToStateInsert(self._context))
         self.addCommand("A", Command.ChangeToStateInsert(self._context))
         self.addCommand("S", Command.ChangeToStateInsert(self._context))
-        # self.addCommand("r", Command.ChangeToStateInsert(self._context))
 
 
 class NormalState(ObserverState):
@@ -172,8 +170,6 @@ class CommandState(ObserverState):
         self.addCommand("set", Command.TurnOnOffNumStrings(self._model))
         self.addCommand("h", Command.help(self._context))
         
-        # self.__clear()
-        # self._commandName = ":"
 
     def __clear(self):
         self._commandName = ""

@@ -6,7 +6,6 @@ class View():
         self.__canvas = curses.initscr()
         self.__canvas.keypad(True)
         curses.noecho()
-        #self.__canvas.scrollok(False)
 
     def getMaxXY(self):
         return self.__canvas.getmaxyx()
@@ -27,15 +26,11 @@ class View():
         self.__canvas.refresh()
 
     def draw(self, strings : list[str], tempPos, modeNum):
-
-        # for i, string in enumerate(strings):
-        #     self.__canvas.addstr(i, 0, string)
         
         y_max, x_max = self.getMaxXY()
         y_max -= 2
         x_max -= 1
 
-        #tempPos = self.getPosCursor()
         y_cur, x_cur = tempPos['y'], tempPos['x']
 
         y_min = y_cur - y_max
@@ -47,7 +42,6 @@ class View():
         for i in range(len(strings)):
             strings[i] = strings[i][x_min:x_min+x_max+1]
 
-        #self.clear()
         nums = 0
         if modeNum:
             nums = len(str(len(strings))) # Size number
@@ -59,12 +53,11 @@ class View():
         else:
             for i, string in enumerate(strings):
                 self.__canvas.addstr(i, 0, string)
-            # self.drawStringInPos(i, 0, string)
         
         tempPos['x'] -= x_min - nums
         tempPos['y'] -= y_min
         self.moveCursor(tempPos)
-        #self.refresh()
+
     def drawStringInPos(self, y, x, string):
         """
         Docstring for drawStringInPos
