@@ -20,9 +20,15 @@ class View():
     def moveCursor(self, cursorPos : dict):
         self.__canvas.move(cursorPos['y'], cursorPos['x'])
 
-    def draw(self, strings : list[str]):
+    def clear(self):
         self.__canvas.clear()
+    
+    def refresh(self):
+        self.__canvas.refresh()
+
+    def draw(self, strings : list[str]):
+        # self.__canvas.clear()
 
         for i, string in enumerate(strings):
             self.__canvas.addstr(i, 0, string)
-        self.__canvas.refresh()
+        #self.__canvas.refresh()

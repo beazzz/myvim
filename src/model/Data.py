@@ -343,11 +343,13 @@ class Data:
             y_min = 0
 
         strings = strings[y_min:y_min+y_max+1]
+        self.__view.clear()
         self.__view.draw(strings)
         
         #tempPos['x'] -= y_min -1
         tempPos['y'] -= y_min
         self.__view.moveCursor(tempPos)
+        self.__view.refresh()
 
     def close(self):
         status = self.__isClose()
