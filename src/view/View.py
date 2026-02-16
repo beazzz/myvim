@@ -38,18 +38,20 @@ class View():
         if y_min < 0: y_min = 0
         if x_min < 0: x_min = 0
 
+        #nums = len(str(len(strings)))
         strings = strings[y_min:y_min+y_max+1]
         for i in range(len(strings)):
             strings[i] = strings[i][x_min:x_min+x_max+1]
 
         nums = 0
         if modeNum:
-            nums = len(str(len(strings))) # Size number
+            nums = len(str(y_min+y_max))#len(str(len(strings))) # Size number
             for i, string in enumerate(strings):
                 num = str(i+y_min)
                 num += ' '* (nums-len(num)) # Add space to make perfect nums
                 self.__canvas.addstr(i, 0, num + " | " + string)
-            nums = len(str(nums) + " | ") + 1
+
+            nums = len(str(num) + " | ")
         else:
             for i, string in enumerate(strings):
                 self.__canvas.addstr(i, 0, string)

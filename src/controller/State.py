@@ -28,10 +28,10 @@ class NormalState(ObserverState):
     """
     def __init__(self, context, model):
         super().__init__(context, model)
-        self.addCommand("KEY_B3", Command.moveCursorRight(self._model))
-        self.addCommand("KEY_B1", Command.moveCursorLeft(self._model))
-        self.addCommand("KEY_A2", Command.moveCursorUp(self._model))
-        self.addCommand("KEY_C2", Command.moveCursorDown(self._model))
+        self.addCommand("KEY_RIGHT", Command.moveCursorRight(self._model))
+        self.addCommand("KEY_LEFT", Command.moveCursorLeft(self._model))
+        self.addCommand("KEY_UP", Command.moveCursorUp(self._model))
+        self.addCommand("KEY_DOWN", Command.moveCursorDown(self._model))
         self.addCommand("^", Command.moveCursorToStartString(self._model))
         self.addCommand("$", Command.moveCursorToEndString(self._model))
         self.addCommand("w", Command.moveCursorToRightWordEnd(self._model))
@@ -96,7 +96,6 @@ class InsertState(ObserverState):
         self._commandName = ""
 
     def handleInput(self, ch) -> bool:
-        # print("InsertState: handleInput", ch)
         if self._commandName:
             if ch == "\x1b": # is ESC?
                 command = self._commands.get(ch)
