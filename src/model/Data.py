@@ -1,0 +1,370 @@
+from view.View import View
+from MyString import MyString
+
+
+
+class Data:
+    """
+    There are data for vim. 
+    For Command is Receiver, For State is Context
+    """
+    def __init__(self, view: View ,url = None):
+        self.__posCursor = {'x': 0,
+                            'y': 0,
+                            'x_save': 0}
+        self.__view = view
+        self.open(url)
+        self.__buffer = MyString()
+        self.__url = url
+        self.__editStatus = False
+        self.__statusClose = False
+        self._modeNum = 0
+    def __str__(self):
+        return "\n".join(string.c_str() for string in self.__string)
+
+    def SetPosCursor(self, dictOfCoord : dict):
+        self.__posCursor = dictOfCoord
+    def getModeNum(self):
+        return self._modeNum
+    def getString(self):
+        return self.__string
+    def getPosCursor(self):
+        return dict(self.__posCursor)
+    def getSymbol(self):
+        return self.__string[self.__posCursor['y']][self.__posCursor['x']]
+    def getRaw(self):
+        string = self.__string[self.__posCursor['y']]
+        return string.c_str()
+    def getCountOfColumn(self):
+        return len(self.__string)
+    def getLenString(self):
+        return self.__string[self.__posCursor['y']].size()
+    def moveCursorRight(self, value : int):
+        endString = self.getLenString()
+        self.__posCursor['x'] += value
+
+        if (self.__isEndFile()):
+            self.__posCursor['x'] = endString
+        elif (self.__posCursor['x'] > endString):
+            self.moveCursorDown(1)
+            self.__posCursor['x'] = 0
+
+        self.__posCursor['x_save'] = self.__posCursor['x']
+    def moveCursorLeft(self, value : int):
+        self.__posCursor['x'] -= value
+
+        if self.__posCursor['x'] < 0:
+            # is first column?
+            if self.__posCursor['y'] == 0:
+                self.__posCursor['x'] = 0
+            else:
+                self.moveCursorUp(1)
+                self.__posCursor['x'] = self.getLenString()
+
+        self.__posCursor['x_save'] = self.__posCursor['x']
+
+    def moveCursorUp(self, value: int):
+        self.__posCursor['y'] -= value
+        if self.__posCursor['y'] < 0:
+            self.__posCursor['y'] = 0
+        
+        self.__doCorrectCursor()
+    def moveCursorDown(self, value: int):
+        self.__posCursor['y'] += value
+        value = self.getCountOfColumn() - 1
+        if self.__posCursor['y'] > value:
+            self.__posCursor['y'] = value
+
+        self.__doCorrectCursor()
+    def moveCursorToStringStart(self):
+        self.__posCursor['x'] = 0
+    def moveCursorToStringEnd(self):
+        self.__posCursor['x'] = self.getLenString()
+    def moveCursorToRightWordEnd(self):
+        # move from cur pos
+        self.moveCursorRight(1)
+        # skip space
+        while (self.__string[self.__posCursor['y']][self.__posCursor['x']] == ' '):
+            self.moveCursorRight(1)
+        # go to end
+        while (
+            self.__string[self.__posCursor['y']][self.__posCursor['x']] != ' ' and
+            self.__IsEndString() == False
+            ):
+            self.moveCursorRight(1)
+    def moveCursorToLeftWordStart(self):
+        self.moveCursorLeft(1)
+        # skip space 
+        while (
+            (self.__string[self.__posCursor['y']][self.__posCursor['x']] == ' ' or
+            self.__string[self.__posCursor['y']][self.__posCursor['x']] == '\0') and
+            self.__isStartString() == False
+               ):
+            self.moveCursorLeft(1)
+
+        # go to start 
+        while (
+            self.__string[self.__posCursor['y']][self.__posCursor['x']] != ' ' and
+            self.__string[self.__posCursor['y']][self.__posCursor['x']] != '\0' and
+            self.__isStartString() == False
+            ):
+            self.moveCursorLeft(1)
+
+        while (
+            self.__string[self.__posCursor['y']][self.__posCursor['x']] == ' ' or
+            self.__string[self.__posCursor['y']][self.__posCursor['x']] == '\0'
+               ):
+            self.moveCursorRight(1)
+        
+
+    def moveCursorToFileStart(self):
+        self.__posCursor['x'] = self.__posCursor['y'] = self.__posCursor['x_save'] = 0
+    def moveCursorToFileEnd(self):
+        self.__posCursor['y'] = self.getCountOfColumn()-1
+        self.__posCursor['x_save'] = self.__posCursor['x'] = self.getLenString()
+    def moveCursorToNstring(self, N : int):
+        if (N < 0 or N > self.getCountOfColumn()):
+            return
+        self.__posCursor['x_save'] = self.__posCursor['x'] = 0
+        self.__posCursor['y'] = N-1
+    def moveScreenToUp(self):
+        pass
+    def moveScreenToDown(self):
+        pass
+    def deleteSymbolAfterCursor(self):
+        self.__string[self.__posCursor['y']].erase(self.__posCursor['x'], 1)
+
+        self.__SetEditFile()
+    def deleteWordUnderCursor(self):
+        """
+        incorrect find in MyString
+        """
+        len = self.__string[self.__posCursor['y']].find(" ", self.__posCursor['x'])
+        if len == -1:
+            len = self.getLenString()
+        else:
+            len+=1
+        len = len - self.__posCursor['x']
+        self.__string[self.__posCursor['y']].erase(self.__posCursor['x'], len)
+
+        self.__SetEditFile()
+    def cutCurrentString(self):
+        self.copyCurrentString()
+        NumString = self.__posCursor['y']
+        self.__string[NumString].clear()
+        self.__string[NumString].shrink_to_fit()
+        self.moveCursorToStringStart()
+        self.__SetEditFile()
+    def copyCurrentString(self):
+        NumString = self.__posCursor['y']
+        self.__buffer = self.__string[NumString].c_str()
+    def copyWordUnderCursor(self):
+        len = self.__string[self.__posCursor['y']].find(" ", self.__posCursor['x'])
+        len = len - self.__posCursor['x']
+        self.__buffer = self.__string[self.__posCursor['y']].substr(self.__posCursor['x'], len)
+    def pasteAfterCursor(self):
+        NumString = self.__posCursor['y']
+        index = self.__posCursor['x']
+        self.__string[NumString].insert(index, self.__buffer)
+        self.__SetEditFile()
+    def deleteCurrentString(self):
+        self.__string[self.__posCursor['y']].clear()
+        self.moveCursorToStringStart()
+        self.__SetEditFile()
+
+    # For insert mode
+    def insertText(self, text : str):
+        """
+        Insert text after cursor
+        """
+        self.__string[self.__posCursor['y']].insert(self.__posCursor['x'], text)
+
+        self.__SetEditFile()
+    def insertTextInStartString(self):
+        """
+        Go to start string and insert text
+        """
+        self.moveCursorToStringStart()
+    def insertTextInEndString(self):
+        """
+        Docstring for insertTextInEndString
+        
+        Go to string end and insert
+        """
+        self.moveCursorToStringEnd()
+    def deleteStringToInsert(self):
+        """
+        detete String and insert
+        """
+        self.deleteCurrentString()
+    def replaceSymbolUnderCursor(self, symbol: str):
+        """
+        Docstring for replaceSymbolUnderCursor
+        :describe: replace symbol on current cursor
+        :param text: 1 symbol
+        :type text: str
+        """
+        if (len(symbol) != 1):
+            raise ValueError("Symbol is incorrect")
+        self.deleteSymbolAfterCursor()
+        self.insertText(symbol)
+
+    # For Search
+    def searchFromCursorToEndFile(self, text: str):
+        """
+        Docstring for searchFromCursorToEndFile
+     
+        :param text: Text is searched
+        :type text: str
+        :return: None
+        :rtype: -
+        """
+        cursor = self.getPosCursor()
+        string = self.__string[self.__posCursor['y']].substr(self.__posCursor['x'])
+        index = string.find(text)
+        if index > -1:
+            if index == 0:
+                self.moveCursorRight(1)
+                string = self.__string[self.__posCursor['y']].substr(self.__posCursor['x'])
+                index = string.find(text)
+            else:
+                self.moveCursorRight(index + self.__posCursor['x'])
+                return
+            
+        while index < 0 and not self.__isEndFile():
+            self.moveCursorToStringEnd()
+            self.moveCursorRight(1)
+            index = self.__string[self.__posCursor['y']].find(text)
+
+        if index < 0:
+            self.SetPosCursor(cursor)
+        else:
+            self.moveCursorRight(index + self.__posCursor['x'])
+    def searchFromCursorToStartFile(self, text: str):
+        """
+        Docstring for searchFromCursorToStartFile
+     
+        :param text: Text is searched
+        :type text: str
+        :return: None
+        :rtype: -
+        """
+        def invert(mystring : MyString):
+            str = mystring.c_str()
+            str = str[::-1]
+            mystring.clear()
+            mystring.shrink_to_fit()
+            mystring.append(str)
+
+        cursor = self.getPosCursor()
+        mystring = self.__string[self.__posCursor['y']].substr(0, self.__posCursor['x'])
+        invert(mystring)
+        text = text[::-1]
+        
+        index = mystring.find(text)
+        if index > -1:
+            self.moveCursorLeft(index + len(text))
+            return True
+        
+        while index < 0 and not self.__isStartFile():
+            self.moveCursorToStringStart()
+            self.moveCursorLeft(1)
+
+            mystring = self.__string[self.__posCursor['y']].substr(0, self.getLenString())
+            invert(mystring)
+            index = mystring.find(text)
+
+        if index < 0:
+            self.SetPosCursor(cursor)
+        else:
+            self.moveCursorLeft(index + len(text))
+    def research(self, text: str):
+        self.searchFromCursorToEndFile(text)
+    def researchInvers(self, text: str):
+        self.searchFromCursorToStartFile(text)
+
+    # For Command state
+    def open(self, url : str):
+        if url is not None:
+            try:
+                with open(url, 'r', encoding="utf-8") as file:
+                    self.__string = [MyString(line.rstrip('\n')) for line in file.readlines()]
+                    self.__url = url
+                
+            except FileNotFoundError:
+                print("FileNotFound, please check correct path file!")
+        else:
+            self.__string = [MyString()]
+    def writeFile(self, url : str = None):
+        if url is None:
+            url = self.__url
+        
+        strings = ""
+        for string in self.__string:
+            strings += string.c_str() + '\n'
+        strings = strings[:-1]
+           
+        with open(url, "w", encoding="utf-8") as file:
+            file.write(strings)
+        self.__editStatus = False
+    def quit(self, must: bool = False):
+        if must:
+            self.__statusClose = True
+        else:
+            if (self.__editStatus == False):
+                print("Exit File")
+                self.__statusClose = True
+            # else:
+            #     print("Cant exit. Use q!")
+    def writeQuit(self):
+        self.writeFile()
+        self.quit(False)
+    def TurnOnOffNumStrings(self):
+        self._modeNum ^= 1
+
+    def draw(self):
+        strings = [string.c_str() for string in self.getString()]
+        self.__view.clear()
+        self.__view.draw(strings, self.getPosCursor(), self.getModeNum())
+        self.__view.refresh()
+
+    def close(self):
+        status = self.__isClose()
+        if status:
+            self.__view.endwin()
+        return status
+
+    def __isClose(self):
+        return self.__statusClose
+        
+    def __isStartString(self):
+        """
+        return true if it is start
+        """
+        return self.__posCursor['x'] == 0
+    def __IsEndString(self):
+        """
+        return true if it is end
+        """
+        return self.getSymbol() == '\0'
+    def __isEndFile(self):
+        """
+        return true if it is enf file
+        """
+        cursor = self.getPosCursor()
+        return cursor['x'] >= self.getLenString() and cursor['y'] == self.getCountOfColumn()-1
+    def __isStartFile(self):
+        return self.__posCursor['x'] == 0 and self.__posCursor['y'] == 0
+    def __doCorrectCursor(self):
+        """
+        observing Cursor's coord after up and down command
+        """
+        end_string = self.getLenString()
+        if self.__posCursor['x_save'] > end_string:
+            self.__posCursor['x'] = end_string
+        else:
+            self.__posCursor['x'] = self.__posCursor['x_save']
+    def __SetEditFile(self):
+        self.__editStatus = True
+
+                                                                                                                              
